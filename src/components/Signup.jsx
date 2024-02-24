@@ -74,7 +74,7 @@ export default function Signup() {
                         <LiaWeightSolid className='w-8 h-[48px] text-gray-800' />
                         <input type="text" name='weight' id='weight' placeholder='Enter weight'  required className=' bg-transparent border-none mx-2 w-full h-[48px] rounded-xl outline-none'  />
                     </div>
-                    <div className='w-[15%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
+                    <div className='w-[20%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
                         <span className='font-normal text-white '>
                             KG
                         </span>
@@ -88,7 +88,7 @@ export default function Signup() {
                         <GiBodyHeight className='w-8 h-[48px] text-gray-800' />
                         <input type="text" name='height' id='height' placeholder='Enter Height'  required className=' bg-transparent border-none mx-2 w-full h-[48px] rounded-xl outline-none'  />
                     </div>
-                    <div className='w-[15%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
+                    <div className='w-[20%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
                         <span className='font-normal text-white '>
                             CM
                         </span>
