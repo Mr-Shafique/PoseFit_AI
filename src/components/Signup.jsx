@@ -70,7 +70,7 @@ export default function Signup() {
                     
 
                 <div className='flex w-[100%]  rounded-xl justify-between'>
-                    <div className='flex w-[80%] bg-gray-200 rounded-xl px-2'>
+                    <div className='flex w-[75%] bg-gray-200 rounded-xl px-2'>
                         <LiaWeightSolid className='w-8 h-[48px] text-gray-800' />
                         <input type="text" name='weight' id='weight' placeholder='Enter weight'  required className=' bg-transparent border-none mx-2 w-full h-[48px] rounded-xl outline-none'  />
                     </div>
@@ -84,7 +84,7 @@ export default function Signup() {
                 </div>
 
                 <div className='flex w-[100%]  rounded-xl justify-between'>
-                    <div className='flex w-[80%] bg-gray-200 rounded-xl px-2'>
+                    <div className='flex w-[75%] bg-gray-200 rounded-xl px-2'>
                         <GiBodyHeight className='w-8 h-[48px] text-gray-800' />
                         <input type="text" name='height' id='height' placeholder='Enter Height'  required className=' bg-transparent border-none mx-2 w-full h-[48px] rounded-xl outline-none'  />
                     </div>
