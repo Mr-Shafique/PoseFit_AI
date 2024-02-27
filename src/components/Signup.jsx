@@ -5,6 +5,7 @@ import { IoPeopleOutline } from "react-icons/io5";
 import { GoKey } from "react-icons/go";
 import { FiUser } from "react-icons/fi";
 import { MdHeight } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 
 
@@ -72,12 +73,15 @@ export default function Signup() {
         console.log('Weight:', weight);
         console.log('Height:', height);
     };
+    const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
+    const imageUrl="./images/high-angle-woman-running.jpg";
+
 
     return (
-        <div className="h-svh bg-custom-bg  bg-no-repeat bg-right flex md:justify-center  items-center bg-cover font-mono ">
+        <div className="h-svh  flex md:justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat' }}>
                 <div className="md:w-[80%] w-[100%] h-[100%] flex items-center overflow-hidden flex-col md:flex-row md:py-[5%] " >
 
-                    <div className="w-[100%] md:w-[50%] h-[100%] bg-login-bg sm:bg-login-bg2 bg-no-repeat bg-cover bg-center  sm:bg-cover">
+                    <div className="w-[100%] md:w-[50%] h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat' }}>
 
                     </div>
                      <div className="bg-transparent w-[100%] md:w-[50%] h-[100%] p-8 flex items-center justify-center  absolute md:static md:bg-white">
@@ -144,15 +148,14 @@ export default function Signup() {
 
 
                     <button className="mt-[20px] md:shadow-2xl rounded-[14px] overflow-hidden">
-                        <div className="w-full h-11 text-white  bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 flex justify-center items-center  text-sm font-bold ">Sign in <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-11  ">
+                        <div className="w-full h-11 text-white  bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 flex justify-center items-center  text-sm font-bold ">Sign up <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-11  ">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                         </div>
 
                     </button>
                     <div className="flex flex-col justify-center text-[#7b6f72] items-center">
-                        <a href="www.google.com" className="text-xs text-white md:text-gray-500">Forgot Password?</a>
-                        <a href="www.google.com" className="text-xs text-white md:text-gray-500">Register your Account <u>Signup</u></a>
+                        <Link to="/" href="www.google.com" className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
                     </div>
                 </form>
             </div>
