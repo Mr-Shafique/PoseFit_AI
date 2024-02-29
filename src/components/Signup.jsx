@@ -6,6 +6,7 @@ import { GoKey } from "react-icons/go";
 import { FiUser } from "react-icons/fi";
 import { MdHeight } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
 
 
 
@@ -43,25 +44,65 @@ export default function Signup() {
 
         // Basic email validation
         if (!email.includes('@')) {
-            alert('Please enter a valid email address');
+            toast.error("Please enter a valid email address", {
+                position: "top-center",
+                autoClose: 800,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Zoom,
+            });
             return;
         }
 
         // Password length validation
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters long');
+        if (password.length < 8 || password.length === 0) {
+            toast.error("Enter the password ,Password must be at least 8 characters long", {
+                position: "top-center",
+                autoClose: 800,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Zoom,
+            });
             return;
         }
 
         // Gender selection validation
         if (gender === '') {
-            alert('Please select a gender');
+            toast.error("Please select a gender", {
+                position: "top-center",
+                autoClose: 800,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Zoom,
+            });
             return;
         }
 
         // Weight and height numeric validation
-        if (isNaN(weight) || isNaN(height)) {
-            alert('Weight and height must be numeric values');
+        if (((weight === '') || isNaN(weight)) || (height === '' || isNaN(height))){
+            toast.error("Weight and height must be numeric values", {
+                position: "top-center",
+                autoClose: 800,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Zoom,
+            });
             return;
         }
 
@@ -78,6 +119,8 @@ export default function Signup() {
 
 
     return (
+        <>
+            <ToastContainer limit={2} />
         <div className="h-svh  flex md:justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat' }}>
                 <div className="md:w-[80%] w-[100%] h-[100%] flex items-center overflow-hidden flex-col md:flex-row md:py-[5%] " >
 
@@ -90,14 +133,14 @@ export default function Signup() {
                         <div className='flex items-center bg-gray-200  border rounded-[14px]'>
                         <FiUser className='text-black w-8 h-6 m-2 font-semibold'/>
 
-                            <input type="text" name="username" id="username" placeholder="Enter Email" required onChange={handleEmailChange} value={email} className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
+                            <input type="text" name="username" id="username" placeholder="Enter Email"  onChange={handleEmailChange} value={email} className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
                         </div>
                     </label>
                     <label htmlFor="password">
                         <div className='flex items-center bg-gray-200  border rounded-[14px]'>
                         <GoKey className='text-black w-8 h-6 m-2' />
 
-                            <input type="password" name="password" id="password" onChange={handlePasswordChange} placeholder="Password" required className=" rounded-[14px] bg-gray-200 h-11  w-full  text-black outline-none" />
+                            <input type="password" name="password" id="password" onChange={handlePasswordChange} placeholder="Password"  className=" rounded-[14px] bg-gray-200 h-11  w-full  text-black outline-none" />
                         </div>
                     </label>
 
@@ -105,7 +148,7 @@ export default function Signup() {
 
                     <label htmlFor="gender" className="flex items-center bg-gray-200  border rounded-[14px]">
                     <IoPeopleOutline className='text-black w-8  h-6 m-2' />
-                        <select name="gender" id="gender" required onChange={handleGenderChange} className="rounded-xl bg-gray-200 h-11 text-black w-[100%] outline-none">
+                        <select name="gender" id="gender"  onChange={handleGenderChange} className="rounded-xl bg-gray-200 h-11 text-black w-[100%] outline-none">
                             <option value="male" disabled selected className=''>Gender</option>
                             <option value="male" className=''>Male</option>
                             <option value="female" className=''>Female</option>
@@ -118,7 +161,7 @@ export default function Signup() {
                 <div className='flex w-[100%]  rounded-xl justify-between'>
                     <div className='flex w-[80%] bg-gray-200 rounded-xl  items-center'>
                         <LiaWeightSolid className='w-8 h-8 m-2  text-gray-800' />
-                        <input type="text" name='weight' id='weight' placeholder='Enter weight'  required onChange={handleWeightChange} className=' bg-transparent border-none text-black  w-full h-11 rounded-xl outline-none'  />
+                        <input type="text" name='weight' id='weight' placeholder='Enter weight'   onChange={handleWeightChange} className=' bg-transparent border-none text-black  w-full h-11 rounded-xl outline-none'  />
                     </div>
                     <div className='w-[15%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
                         <span className='font-normal text-white '>
@@ -132,7 +175,7 @@ export default function Signup() {
                 <div className='flex w-[100%]  rounded-xl justify-between'>
                     <div className='flex w-[80%] bg-gray-200 items-center rounded-xl '>
                     <MdHeight className='text-black w-8  h-6 m-2 ' />
-                        <input type="text" name='height' id='height' placeholder='Enter Height'  required onChange={handleHeightChange} className=' bg-transparent text-black border-none  w-full h-11 rounded-xl outline-none'  />
+                        <input type="text" name='height' id='height' placeholder='Enter Height'   onChange={handleHeightChange} className=' bg-transparent text-black border-none  w-full h-11 rounded-xl outline-none'  />
                     </div>
                     <div className='w-[15%] rounded-xl flex justify-center items-center bg-gradient-to-r from-orange-300 to-orange-600'>
                         <span className='text-white font-semibold '>
@@ -163,5 +206,6 @@ export default function Signup() {
 
             </div>
 
+        </>
     );
 }
