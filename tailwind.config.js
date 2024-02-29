@@ -32,6 +32,6 @@ module.exports = {
       popins: ["Poppins"],
     },
     },
-    plugins: [require("daisyui")],
+    plugins: [],
 
 }
