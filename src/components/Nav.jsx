@@ -1,5 +1,7 @@
 import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+const list = [ "hero", "Careers", "History", "Services", "Projects", "Blog" ];
 
 
 
@@ -18,7 +20,10 @@ export default function Nav() {
 
 
     <>
-  <div className=" max-w-screen-xl   md:px-8 ">
+
+<div className="flex justify-center">
+
+  <div className=" max-w-screen-xl container    md:px-8 ">
     <div className="flex h-16 items-center  justify-between">
       <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
         <a className="block text-teal-600" href="www.google.com">
@@ -28,30 +33,17 @@ export default function Nav() {
 
       <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
         <nav aria-label="Global" className={` md:static absolute w-full mt-12 md:mt-0   md:block ${isopen ? "block duration-500": "hidden" }`}>
-          <ul id="hidden" className={`flex items-center gap-6 text-sm  justify-end flex-col md:flex-row`}>
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> About </a>
-            </li>
-
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> Careers </a>
-            </li>
-
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> History </a>
-            </li>
-
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> Services </a>
-            </li>
-
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> Projects </a>
-            </li>
-
-            <li>
-              <a className="text-gray-500  hover:text-gray-500/75" href="www.google.com"> Blog </a>
-            </li>
+          <ul id="hidden" className={`flex items-center gap-4 text-sm  justify-end flex-col md:flex-row`}>
+           {list.map((item, index) => {
+             return (
+                <li key={index} className="w-full md:w-auto border-2 px-4 md:px-0">
+                  <Link to={`/${item}`} className=" font-semibold hover:text-gray-500/75"> {item} </Link>
+                  {/* <a className=" font-semibold hover:text-gray-500/75" href="www.google.com"> {item} </a> */}
+                </li>
+              )
+            }
+            
+            )}
           </ul>
         </nav>
 
@@ -60,7 +52,7 @@ export default function Nav() {
             <a
               className="rounded-md bg-red-400 px-5 py-2.5 text-sm font-medium text-white shadow"
               href="www.google.com"
-            >
+              >
               Login
             </a>
           </div>
@@ -75,6 +67,7 @@ export default function Nav() {
       </div>
     </div>
   </div>
+              </div>
     </>
   );
 }

@@ -124,7 +124,7 @@ export default function Signup() {
         <div className="h-svh  flex md:justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat' }}>
                 <div className="md:w-[80%] w-[100%] h-[100%] flex items-center overflow-hidden flex-col md:flex-row md:py-[5%] " >
 
-                    <div className="w-[100%] md:w-[50%] h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat' }}>
+                    <div className="w-[100%] md:w-[50%] h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover',backgroundRepeat:'no-repeat', backgroundPosition:'center' }}>
 
                     </div>
                      <div className="bg-transparent w-[100%] md:w-[50%] h-[100%] p-8 flex items-center justify-center  absolute md:static md:bg-white">
@@ -198,7 +198,7 @@ export default function Signup() {
 
                     </button>
                     <div className="flex flex-col justify-center text-[#7b6f72] items-center">
-                        <Link to="/" href="www.google.com" className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
+                        <Link to="/nav"  className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
                     </div>
                 </form>
             </div>
