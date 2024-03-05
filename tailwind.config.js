@@ -18,8 +18,10 @@ module.exports = {
       xl: "1366px",
     },
     fontFamily: {
-      popins: ["Poppins"],
-      Kanit: ["Kanit"],
+      
+      BebasNeue: ["Bebas Neue"],
+      inter : ["Inter"],
+
     },
     },
     plugins: [],

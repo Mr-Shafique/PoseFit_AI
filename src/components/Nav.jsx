@@ -1,7 +1,7 @@
 import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const list = [ "hero", "Careers", "History", "Services", "Projects", "Blog" ];
+const list = [ "hero", "Main", "History", "Services", "Projects", "Blog" ];
 
 
 
@@ -21,7 +21,7 @@ export default function Nav() {
 
     <>
 
-<div className="flex justify-center">
+<div className="flex justify-center sticky z-20">
 
   <div className=" max-w-screen-xl container    md:px-8 ">
     <div className="flex h-16 items-center  justify-between">

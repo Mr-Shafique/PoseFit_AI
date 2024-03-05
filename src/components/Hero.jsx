@@ -1,27 +1,56 @@
 import { Link } from "react-router-dom";
+import { FaPersonRunning } from "react-icons/fa6";
+import { IoFootsteps } from "react-icons/io5";
+import { RiUserFollowFill } from "react-icons/ri";
+
+
+
 export default function Hero() {
 
     const heroimage = "./images/heroimage.png";
+    // const bgimage = "./images/heroimage.png";
+    const bgimage = "./images/magicpattern-blob-1709669188492.png";
 
     return (
 
         <>
-            <div className="flex justify-center">
-                <div className="h-svh  relative md:p-10 p-0 container bg-slate-400 ">
+            <div className="flex justify-center  " style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'auto', backgroundPosition : `center`, backgroundRepeat: `no-repeat`  }} >
+                
+                <div className="  relative md:p-10 p-0 container backdrop-blur-3xl bg-white/30 ">
                     <div className="flex flex-col sm:flex-row ">
 
-                                <div className="w-[70%]">
-                                    <span className="sm:text-[2rem]  md:text-[5rem] xl:text-[10rem] text-wrap">
+                                <div className="md:w-[70%] w-[100%] text-center ">
+                                    <span className="font-extralight tracking-widest sm:text-[5rem] md:text-[7rem] lg:text-[10rem] text-[5rem] font-BebasNeue text-wrap">
                                         WORKOUT <br /> WITH
                                     <Link to={"/signup"} className="text-white"> <u>AI</u></Link>
                                     </span>
+                                    <p className="font-inter text-lg text-gray-800">
+                                    Unleash Your Inner Strength: Elevate Your Fitness Journey with AI-Powered Pose Perfection!                                    </p>
                                 </div>
                                 
                                 <div className=" flex md:w-[40%] w-[100%] mr-16 relative  ">
-                                    <img src={heroimage} alt="heroimage" className=" z-10  border-2 w-full "  />
-                                        <div className="w-36  h-14 rounded-xl absolute  bg-[#ef8964] right-0 "></div>
-                                        <div className="w-36  h-14 rounded-xl absolute  bg-[#303030] top-1/3 "></div>
-                                        <div className="w-36  h-14 rounded-xl absolute  bg-[#7a29dc]  right-[-25px] top-3/4"></div>
+                                    <img src={heroimage} alt="heroimage" className=" z-10   w-full "  />
+                                        <div className="w-36  h-14 rounded-xl absolute flex flex-col justify-center items-center font-bold text-white text-lg bg-[#ef8964] right-0 ">
+                                        <FaPersonRunning className="self-start mx-10" />
+                                        <span className="font-inter">
+                                            4,95<sub>KM</sub>
+                                        </span>
+
+                                        </div>
+                                        <div className="w-36  h-14 rounded-xl absolute flex flex-col justify-center items-center font-bold text-white text-sm bg-[#303030] top-1/3 ">
+                                        <IoFootsteps className="self-start mx-10" />
+                                        <span className="font-inter">
+                                            Track your record
+                                        </span>
+
+                                        </div>
+                                        <div className="w-36  h-14 rounded-xl absolute flex flex-col justify-center items-center font-bold text-white text-lg bg-[#7a29dc] right-0 top-3/4 ">
+                                        <RiUserFollowFill className="self-start mx-10" />
+                                        <span className="font-inter">
+                                            Follow steps 
+                                        </span>
+
+                                        </div>
                                    
                                 </div>
                     </div>
