@@ -11,7 +11,6 @@ import Exercise from "./components/Exercises";
 export default function App() {
   return (
     <>
-    
       <BrowserRouter>
 
           <Routes>
