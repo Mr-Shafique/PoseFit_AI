@@ -1,3 +1,4 @@
+// import { useEffect } from 'react';
 import { useState } from 'react'
 import { GoKey } from "react-icons/go";
 import { CiUser } from "react-icons/ci";
@@ -64,7 +65,7 @@ export default function Login() {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: "dark",
+                theme: "light",
                 transition: Zoom,
             });
             return;
@@ -75,13 +76,33 @@ export default function Login() {
         // If all validations pass, proceed with form submission logic
         console.log("Form submitted with Email:", email, "Password:", password);
         // Here, you would typically send the data to your server or perform other actions
+
+        // Clear the form fields after submission
+        
+       
+
+      
+
     }
+
+     
+
+
+
+
+
 
     const imageUrl = "./images/high-angle-woman-running.jpg";
     const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
 
     return (
         <>
+
+
+
+
+
+
             <ToastContainer />
             <div className="h-svh  bg-no-repeat bg-right flex md:justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} >
                 <div className="md:w-[80%] w-[100%] h-[100%] flex items-center overflow-hidden flex-col md:flex-row md:py-[5%] " >

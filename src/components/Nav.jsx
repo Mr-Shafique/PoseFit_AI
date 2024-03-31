@@ -53,7 +53,7 @@ export default function Nav() {
               className="rounded-md bg-red-400 px-5 py-2.5 text-sm font-medium text-white shadow"
               href="www.google.com"
               >
-              Login
+              Logout
             </a>
           </div>
 

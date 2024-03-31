@@ -113,7 +113,34 @@ export default function Signup() {
         console.log('Gender:', gender);
         console.log('Weight:', weight);
         console.log('Height:', height);
+
+        // Send data to server API
+        fetch('https://api.example.com/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                password,
+                gender,
+                weight,
+                height,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response from server
+                console.log('Response from server:', data);
+                // TODO: Handle success or error response
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error:', error);
+            });
     };
+
+    
     const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
     const imageUrl="./images/high-angle-woman-running.jpg";
 

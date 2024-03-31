@@ -21,7 +21,7 @@ export default function App() {
 
     return (
         <>
-        <div className=" flex justify-center">
+        <div className=" flex justify-center mb-40">
 
         
             <div className="p-4 container  border-red-200">
@@ -33,10 +33,19 @@ export default function App() {
 
                 <div className=" flex  flex-col" >
                     <div className="flex   rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
-                       <div className="w-[80%] p-4 ">
+                       <div className="w-[80%] p-8 flex flex-col justify-between ">
+                        <div>
+
                         <h2 className="text-2xl font-semibold text-[#F95501]">{exercise.PLANK.title}</h2>
                         <p className="text-black">{exercise.PLANK.description}</p>
-                        <Link to="/Exercises/Plank" className="text-white">Start</Link>
+                        </div>
+                        <div>
+
+                        <button className="bg-[#F95501] w-40 h-14 rounded-lg">
+
+                        <Link to="/Exercises/Planks" className="text-white font-semibold">Start</Link>
+                        </button>
+                        </div>
                        </div>
                         <div className="">
                         <img src={exercise.PLANK.image} alt="plank" className="w-80 rounded-xl " />
@@ -46,10 +55,20 @@ export default function App() {
                     
 
                     <div className="flex  rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] ">
-                       <div className="w-[80%] p-4">
+                       <div className="w-[80%] p-8 flex flex-col justify-between ">
+                        <div>
+
                         <h2 className="text-2xl font-semibold text-[#F95501]">{exercise.squat.title}</h2>
                         <p className="text-black">{exercise.squat.description}</p>
-                        <Link to="/Exercises/Squats" className="text-white">Start</Link>
+                        </div>
+                        <div>
+
+
+                        <button className="bg-[#F95501] w-40 h-14 rounded-lg">
+
+                        <Link to="/Exercises/Squats" className="text-white font-semibold">Start</Link>
+                        </button>
+                        </div>
 
                        </div>
                        <div>
