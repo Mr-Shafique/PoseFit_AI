@@ -225,7 +225,7 @@ export default function Signup() {
 
                     </button>
                     <div className="flex flex-col justify-center text-[#7b6f72] items-center">
-                        <Link to="/nav"  className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
+                        <Link to="/"  className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
                     </div>
                 </form>
             </div>

@@ -72,12 +72,14 @@ export default function Login() {
 
 
         }
+        
 
         // If all validations pass, proceed with form submission logic
         console.log("Form submitted with Email:", email, "Password:", password);
         // Here, you would typically send the data to your server or perform other actions
 
         // Clear the form fields after submission
+        
         
        
 
@@ -104,8 +106,8 @@ export default function Login() {
 
 
             <ToastContainer />
-            <div className="h-svh  bg-no-repeat bg-right flex md:justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} >
-                <div className="md:w-[80%] w-[100%] h-[100%] flex items-center overflow-hidden flex-col md:flex-row md:py-[5%] " >
+            <div className="h-svh  bg-no-repeat bg-right flex md:justify-center justify-center items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} >
+                <div className="md:w-[80%] w-[100%] h-[100%] flex items-center container overflow-hidden flex-col md:flex-row md:py-[5%] " >
 
                     <div className="w-[100%] md:w-[50%] h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition:'center' }}>
 
@@ -128,7 +130,7 @@ export default function Login() {
                             </label>
 
                             <button className="mt-[20px] md:shadow-2xl rounded-[14px] overflow-hidden" >
-                                <div className="w-full h-11 text-white  bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 flex justify-center items-center  text-sm font-bold ">Sign in <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-11  ">
+                                <div className="w-full h-11 text-white  bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 flex justify-center items-center  text-sm font-bold "  >sigin<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-11  ">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                                 </svg>
                                 </div>

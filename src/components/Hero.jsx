@@ -14,9 +14,9 @@ export default function Hero() {
     return (
 
         <>
-            <div className="flex justify-center  " style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'auto', backgroundPosition : `center`, backgroundRepeat: `no-repeat`  }} >
+            <div className="  " style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'auto', backgroundPosition : `center`, backgroundRepeat: `no-repeat`  }} >
                 
-                <div className="   relative md:p-10 p-0 container backdrop-blur-2xl bg-white/30 ">
+                <div className="   relative md:p-10 p-0 backdrop-blur-2xl bg-white/30 ">
                     <div className="flex flex-col sm:flex-row ">
 
                                 <div className="md:w-[70%] w-[100%] text-center ">

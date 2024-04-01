@@ -1,18 +1,18 @@
 export default function History() {
     return (
         <>
-            <div className="flex justify-center">
-                <div className=" container flex flex-col gap-4 ">
+            
+                <div className="  flex flex-col gap-4 p-4 ">
                     <div className="">
 
-                        <h1 className="text-5xl text-[#F95501]">History</h1>
+                        <h1 className="text-5xl font-semibold text-[#F95501]">History</h1>
                         <small>"Exercise not only
                             changes your body,
                             it changes your
                             mind, your attitude
                             and your mood."</small>
                     </div>
-                    <div className="collapse p-4 collapse-arrow bg-base-200 ">
+                    <div className="collapse p-4 collapse-arrow bg-base-200 mb-48 ">
                         <input type="radio" name="my-accordion-2"  />
                         <div className="collapse-title text-xl font-semibold">
                         Plank exercise
@@ -29,8 +29,12 @@ export default function History() {
                         </div>
                     </div>
 
+
+                    
+
+
                 </div>
-            </div>
+            
         </>
     )
 }

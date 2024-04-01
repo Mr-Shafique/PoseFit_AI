@@ -1,7 +1,7 @@
 import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const list = [ "hero", "Main", "History", "Services", "Projects", "Blog" ];
+const list = [ "Profile", "Exercises", "History", "About", "Contact us " ];
 
 
 
@@ -21,13 +21,14 @@ export default function Nav() {
 
     <>
 
-<div className="flex justify-center sticky z-20">
+<div className=" sticky z-20">
 
-  <div className=" max-w-screen-xl container    md:px-8 ">
+  <div className=" max-w-screen-xl     md:px-8 ">
     <div className="flex h-16 items-center  justify-between">
       <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
-        <a className="block text-teal-600" href="www.google.com">
-          <img src={img} alt="logo" className="w-32 h-10" />         
+        <a className="flex " href="www.google.com">
+          <img src={img} alt="logo" className="w-10 absolute" />  
+          <span className="">POSEFIT AI</span>       
         </a>
       </div>
 
@@ -36,7 +37,7 @@ export default function Nav() {
           <ul id="hidden" className={`flex items-center gap-4 text-sm  justify-end flex-col md:flex-row`}>
            {list.map((item, index) => {
              return (
-                <li key={index} className="w-full md:w-auto border-2 px-4 md:px-0">
+                <li key={index} className="w-full md:w-auto  px-4 md:px-0">
                   <Link to={`/${item}`} className=" font-semibold hover:text-gray-500/75"> {item} </Link>
                   {/* <a className=" font-semibold hover:text-gray-500/75" href="www.google.com"> {item} </a> */}
                 </li>

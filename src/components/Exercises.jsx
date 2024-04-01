@@ -21,13 +21,13 @@ export default function App() {
 
     return (
         <>
-        <div className=" flex justify-center mb-40">
+        <div className=" mb-40">
 
         
-            <div className="p-4 container  border-red-200">
+            <div className="p-4   border-red-200">
                 <div className="">
 
-                    <h1 className="text-5xl text-[#F95501]">Exercises</h1>
+                    <h1 className="text-5xl font-semibold text-[#F95501]">Exercises</h1>
                     <small>Choose exercise you want to train yourself on</small>
                 </div>
 
