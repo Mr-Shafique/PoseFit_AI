@@ -21,10 +21,10 @@ export default function App() {
 
     return (
         <>
-            <div className=" mb-40">
+            <div className=" mb-40 flex justify-center">
 
 
-                <div className="p-4   ">
+                <div className="p-4  container  ">
                     <div className="">
 
                         <h1 className="text-5xl font-semibold text-[#F95501]">Exercises</h1>

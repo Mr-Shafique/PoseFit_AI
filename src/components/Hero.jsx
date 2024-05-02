@@ -14,11 +14,11 @@ export default function Hero() {
     return (
 
         <>
-        <div className="bg-[#f95501]">
+        <div className="bg-[#f95501] flex justify-center">
 
             {/* <div className="  " style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'auto', backgroundPosition : `center`, backgroundRepeat: `no-repeat`  }} > */}
                 
-                <div className="   relative md:p-10 p-0 backdrop-blur-2xl bg-white/30 ">
+                <div className=" container  relative md:p-10 p-0  ">
                     <div className="flex flex-col sm:flex-row ">
 
                                 <div className="md:w-[70%] w-[100%] text-center ">

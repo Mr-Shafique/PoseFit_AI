@@ -1,8 +1,9 @@
 export default function History() {
     return (
         <>
-            
-                <div className="  flex flex-col gap-4 p-4 ">
+            <div className="flex justify-center">
+
+                <div className="  flex flex-col container  gap-4 p-4 ">
                     <div className="">
 
                         <h1 className="text-5xl font-semibold text-[#F95501]">History</h1>
@@ -34,6 +35,7 @@ export default function History() {
 
 
                 </div>
+            </div>
             
         </>
     )

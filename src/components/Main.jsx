@@ -9,8 +9,8 @@ export default function Main() {
 
     return (
         <>
-        <div className='flex justify-center'>
-            <div className='container'>
+        <div className='flex'>
+            <div className=''>
 
 
         <Nav />

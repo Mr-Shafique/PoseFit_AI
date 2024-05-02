@@ -21,13 +21,11 @@ export default function Nav() {
 
     <>
 
-      <div className=" z-20 sticky top-0 flex justify-center ">
+      <div className=" z-20 sticky top-0 flex  ">
 
-        <div className=" max-w-screen-xl  container bg-white ">
+        <div className=" px-4 w-full   bg-white ">
           <div className="flex h-20 items-center  justify-between ">
-            <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
-              <span>hello</span>
-            </div>
+            
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
               <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 bg-white   md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
