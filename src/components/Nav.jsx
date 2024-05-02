@@ -30,7 +30,7 @@ export default function Nav() {
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
-              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 backdrop-blur-lg  md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
+              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 backdrop-blur-lg md:backdrop-blur-none md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
                 <ul id="hidden" className={`flex items-center gap-4 text-md  justify-end flex-col md:flex-row   `}>
                   {list.map((item, index) => {
                     return (
