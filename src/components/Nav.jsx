@@ -26,7 +26,7 @@ export default function Nav() {
         <div className="md:px-8 w-full   bg-white ">
           <div className="flex h-20 items-center  justify-between ">
             <div>
-              <Link to="/" className="flex items-center gap-2">
+              <Link to="/main" className="flex items-center gap-2">
                 {/* <img src="./images/PoseFit (2).png" alt="logo" className="w-12 h-12" /> */}
                 <span className="text-[#f95501] font-bold text-2xl">PoseFit AI </span>
               </Link>
@@ -52,7 +52,7 @@ export default function Nav() {
                 <div className="sm:flex sm:gap-4">
                   <a
                     className="rounded-md bg-[#ff834d] px-5 py-2.5 text-sm font-medium text-white shadow"
-                    href="www.google.com"
+                    href="/"
                   >
                     Logout
                   </a>

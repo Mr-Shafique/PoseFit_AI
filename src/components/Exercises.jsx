@@ -1,5 +1,5 @@
 // import { Link } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 const exercise = {
     PLANK: {
         title: "PLANK EXERCISE",
@@ -16,8 +16,11 @@ const exercise = {
 
 export default function App() {
 
+    const navigate = useNavigate();
 
-
+    const funchange = () => {
+      navigate('/camera');
+    }
 
     return (
         <>
@@ -43,22 +46,11 @@ export default function App() {
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-                                    <button className="bg-[#fb884e] hover:bg-[#F95501] btn w-40 h-14 hover:text-white  rounded-lg drop-shadow-xl" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501] btn w-40 h-14 hover:text-white  rounded-lg drop-shadow-xl"onClick={funchange} >Start Exercise
 
 
                                     </button>
-                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg">Hello!</h3>
-                                            <p className="py-4">Press ESC key or click the button below to close</p>
-                                            <div className="modal-action">
-                                                <form method="dialog">
-                                                    {/* if there is a button in form, it will close the modal */}
-                                                    <button className="btn">Close</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </dialog>
+                                   
                                 </div>
                             </div>
                             <div className="">
@@ -78,22 +70,9 @@ export default function App() {
                                 <div>
 
 
-                                    <button className="bg-[#fb884e] hover:bg-[#F95501]  hover:text-white btn w-40 h-14  rounded-lg drop-shadow-xl" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
-
-
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501]  hover:text-white btn w-40 h-14  rounded-lg drop-shadow-xl" onClick={funchange} >Start Exercise
                                     </button>
-                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg">Hello!</h3>
-                                            <p className="py-4">Press ESC key or click the button below to close</p>
-                                            <div className="modal-action">
-                                                <form method="dialog">
-                                                    {/* if there is a button in form, it will close the modal */}
-                                                    <button className="btn">Close</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </dialog>
+                                  
                                 </div>
 
                             </div>

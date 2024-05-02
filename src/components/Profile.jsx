@@ -1,9 +1,19 @@
 import React from 'react';
 import Feedback from './Feedback';
 import SessionHistoryTable from './SessionHistoryTable';
+import { useState } from 'react';
 import Nav from './Nav';
 
 export default function Profile() {
+
+    const [username, setusername] = useState('John Doe');
+    const [email, setemail] = useState('jhondoe@gmail.com'); // Step 1: Uncomment or add this line
+    const [age, setage] = useState('25');
+    const [height, setheight] = useState('5.5');
+    const [weight, setweight] = useState('65');
+
+   
+    
 
 
     return (
@@ -15,16 +25,16 @@ export default function Profile() {
 
                 <div className='flex flex-col '>
 
-                    <div className='flex w-12/12 h-1/6   mb-4'>
+                    <div className='flex w-12/12 h-1/6  mb-20'>
                         <div className='w-4/12  flex justify-center items-center'>
                             <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className='  ' />
                         </div>
-                        <div className='w-full   pl-4 text-xs sm:text-lg gap-1  flex flex-col '>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>USERNAME</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>EMAIL</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>AGE</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>HEIGHT</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>WEIGHT</div>
+                        <div className='w-8/12   pl-4 text-xs sm:text-lg gap-1  flex flex-col '>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >USERNAME : ${username}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >EMAIL :  ${email}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >AGE :  ${age}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >HEIGHT :  ${height}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >WEIGHT :  ${weight}</div>
                         </div>
 
                         
