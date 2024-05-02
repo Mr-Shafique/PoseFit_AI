@@ -26,7 +26,13 @@ export default function Nav() {
         <div className="w-full    bg-white md:px-8">
           <div className="flex h-20 items-center  justify-between ">
             <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
-              <span>hello</span>
+              
+              <div className="flex items-center gap-4">
+                {/* <img src="./images/PoseFit (2).png" alt="logo" className="w-16 h-16" /> */}
+                <h1 className="text-2xl font-semibold text-[#ff834d]">PoseFit AI</h1>
+
+                </div>
+
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
