@@ -27,7 +27,7 @@ export default function Login() {
         e.preventDefault()
         // Step 3: Implement validation
         if (!email || !password) {
-                toast.error("Email and password are required", {
+            toast.error("Email and password are required", {
                 position: "top-center",
                 autoClose: 500,
                 hideProgressBar: true,
@@ -72,22 +72,22 @@ export default function Login() {
 
 
         }
-        
+
 
         // If all validations pass, proceed with form submission logic
         console.log("Form submitted with Email:", email, "Password:", password);
         // Here, you would typically send the data to your server or perform other actions
 
         // Clear the form fields after submission
-        
-        
-       
 
-      
+
+
+
+
 
     }
 
-     
+
 
 
 
@@ -99,26 +99,21 @@ export default function Login() {
 
     return (
         <>
+            <ToastContainer limit={2} />
+            <div className="h-svh  flex md:justify-center justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+                <div className="md:w-10/12 w-12/12 h-[100%] flex items-center justify-center container  flex-col md:flex-row md:py-6 " >
 
-
-
-
-
-
-            <ToastContainer />
-            <div className="h-svh  bg-no-repeat bg-right flex md:justify-center justify-center items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} >
-                <div className="md:w-[80%] w-[100%] h-[100%] flex items-center container overflow-hidden flex-col md:flex-row md:py-[5%] " >
-
-                    <div className="w-[100%] md:w-[50%] h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition:'center' }}>
+                    <div className="w-full md:w-5/12 h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
 
                     </div>
-                    <div className="bg-transparent w-[100%] md:w-[50%] h-[100%] p-8 flex items-center justify-center  absolute md:static md:bg-white ">
-                        <form onSubmit={handleSubmit} className='w-[80%] flex flex-col gap-6'>
+                    <div className="bg-transparent w-[100%] md:w-6/12 h-full flex items-center justify-center  absolute md:static md:bg-white">
+                        <form onSubmit={handleSubmit} className='w-3/4 h-5/6 flex flex-col justify-center gap-4'>
+
                             <label htmlFor="username">
                                 <div className='flex items-center bg-gray-200  border rounded-[14px]'>
                                     <CiUser className='text-black w-6 h-6 m-2' />
 
-                                    <input type="text" name="username" id="username" placeholder="Enter Email" onChange={getemail} value={email}  className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
+                                    <input type="text" name="username" id="username" placeholder="Enter Email" onChange={getemail} value={email} className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
                                 </div>
                             </label>
                             <label htmlFor="password">
@@ -146,8 +141,11 @@ export default function Login() {
                 </div>
 
             </div>
+
         </>
 
     );
 
 }
+
+
