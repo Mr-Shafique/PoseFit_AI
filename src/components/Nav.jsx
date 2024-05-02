@@ -21,15 +21,12 @@ export default function Nav() {
 
     <>
 
-      <div className=" z-20 sticky top-0 flex  ">
+      <div className=" z-20 sticky top-0 flex   ">
 
-        <div className="md:px-8 w-full   bg-white ">
+        <div className="w-full    bg-white md:px-8">
           <div className="flex h-20 items-center  justify-between ">
-            <div>
-              <Link to="/main" className="flex items-center gap-2">
-                {/* <img src="./images/PoseFit (2).png" alt="logo" className="w-12 h-12" /> */}
-                <span className="text-[#f95501] font-bold text-2xl">PoseFit AI </span>
-              </Link>
+            <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
+              <span>hello</span>
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">

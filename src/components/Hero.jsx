@@ -24,7 +24,7 @@ export default function Hero() {
                                 <div className="md:w-[70%] w-[100%] text-center ">
                                     <span className="font-extralight tracking-widest sm:text-[5rem] md:text-[7rem] lg:text-[10rem] text-[5rem] font-BebasNeue text-wrap">
                                         WORKOUT <br /> WITH
-                                    <Link to={"/signup"} className="text-white"> <u>AI</u></Link>
+                                    <span  className="text-white"> <u>AI</u></span>
                                     </span>
                                     <p className="font-inter text-lg text-white">
                                     Unleash Your Inner Strength: Elevate Your Fitness Journey with AI-Powered Pose Perfection!                                    </p>
