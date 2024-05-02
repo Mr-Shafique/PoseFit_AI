@@ -1,4 +1,14 @@
+import { useState } from "react"
+
+
 export default function History() {
+
+    const [right, setRight] = useState(0)
+    const [wrong, setWrong] = useState(0)
+
+    
+
+
     return (
         <>
             <div className="flex justify-center">
@@ -21,11 +31,11 @@ export default function History() {
                         <div className="collapse-content flex flex-col   justify-between  sm:flex-row  gap-2 ">
                             <div className=" flex justify-between p-2 px-4 w-full bg-green-400 h-10 rounded-lg text-white font-medium  sm:w-[30%]">
                                 <p>Correct </p>
-                                <p>number</p>
+                                <p>${right}</p>
                             </div>
                             <div className=" w-full  bg-[#f95501] h-10 rounded-lg flex justify-between p-2 px-4 text-white font-medium  sm:w-[30%]">
                                 <p>Wrong</p>
-                                <p>number</p>
+                                <p>${wrong}</p>
                             </div>
                         </div>
                     </div>

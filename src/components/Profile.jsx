@@ -25,16 +25,16 @@ export default function Profile() {
 
                 <div className='flex flex-col '>
 
-                    <div className='flex w-12/12 h-1/6  mb-20'>
-                        <div className='w-4/12  flex justify-center items-center'>
+                    <div className='flex w-12/12 flex-col md:flex-row  mb-20'>
+                        <div className='w-12/12 md:w-4/12  flex justify-center items-center'>
                             <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className='  ' />
                         </div>
-                        <div className='w-8/12   pl-4 text-xs sm:text-lg gap-1  flex flex-col '>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >USERNAME : ${username}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >EMAIL :  ${email}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >AGE :  ${age}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >HEIGHT :  ${height}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5' >WEIGHT :  ${weight}</div>
+                        <div className='w-12/12  md:w-8/12 justify-center   text-xs sm:text-lg gap-4 md:pl-4  flex flex-col '>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >USERNAME : ${username}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >EMAIL :  ${email}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >AGE :  ${age}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >HEIGHT :  ${height}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >WEIGHT :  ${weight}</div>
                         </div>
 
                         
@@ -62,7 +62,7 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-                    <div className="collapse p-4 collapse-arrow bg-base-200  ">
+                    <div className="collapse p-4 collapse-arrow bg-base-200 mb-4 ">
                        <div className='text-xl font-semibold p-4'>
                         Plank exercise
                        </div>
