@@ -115,29 +115,29 @@ export default function Signup() {
         console.log('Height:', height);
 
         // Send data to server API
-        fetch('https://api.example.com/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-                password,
-                gender,
-                weight,
-                height,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Handle response from server
-                console.log('Response from server:', data);
-                // TODO: Handle success or error response
-            })
-            .catch(error => {
-                // Handle error
-                console.error('Error:', error);
-            });
+        // fetch('', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         email,
+        //         password,
+        //         gender,
+        //         weight,
+        //         height,
+        //     }),
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // Handle response from server
+        //         console.log('Response from server:', data);
+        //         // TODO: Handle success or error response
+        //     })
+        //     .catch(error => {
+        //         // Handle error
+        //         console.error('Error:', error);
+        //     });
     };
 
     
@@ -176,8 +176,8 @@ export default function Signup() {
                     <label htmlFor="gender" className="flex items-center bg-gray-200  border rounded-[14px]">
                     <IoPeopleOutline className='text-black w-8  h-6 m-2' />
                         <select name="gender" id="gender"  onChange={handleGenderChange} className="rounded-xl bg-gray-200 h-11 text-black w-[100%] outline-none">
-                            <option value="male" disabled selected className=''>Gender</option>
-                            <option value="male" className=''>Male</option>
+                            <option  disabled selected className=''>Gender</option>
+                            <option value="male" defaultValue={"male"} className=''>Male</option>
                             <option value="female" className=''>Female</option>
                         </select>
                     </label>

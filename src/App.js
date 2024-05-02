@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Redalert from "./components/Redalert";
 import Main from "./components/Main";
 import Exercise from "./components/Exercises";
+import Profile from "./components/Profile";
 
 
 export default function App() {
@@ -19,11 +20,13 @@ export default function App() {
             {/* <Route path="/hero" element={<Hero />} /> */}
             <Route path="/main" element={<Main />} />
             <Route path="/exercise" element={<Exercise />} />
+            <Route path= "/profile" element={<Profile />} />
 
           </Routes>
 
       
       </BrowserRouter>
+
     </>
   );
 }
