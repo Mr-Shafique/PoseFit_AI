@@ -26,7 +26,7 @@ export default function Hero() {
                                         WORKOUT <br /> WITH
                                     <Link to={"/signup"} className="text-white"> <u>AI</u></Link>
                                     </span>
-                                    <p className="font-inter text-lg text-gray-800">
+                                    <p className="font-inter text-lg text-white">
                                     Unleash Your Inner Strength: Elevate Your Fitness Journey with AI-Powered Pose Perfection!                                    </p>
                                 </div>
                                 

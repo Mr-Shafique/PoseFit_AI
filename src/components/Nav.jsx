@@ -1,7 +1,7 @@
 // import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const list = ["Profile", "History", "About", "Contact us "];
+const list = ["Profile", "main", "Contact us "];
 
 
 
@@ -23,9 +23,14 @@ export default function Nav() {
 
       <div className=" z-20 sticky top-0 flex  ">
 
-        <div className=" px-4 w-full   bg-white ">
+        <div className="md:px-8 w-full   bg-white ">
           <div className="flex h-20 items-center  justify-between ">
-            
+            <div>
+              <Link to="/" className="flex items-center gap-2">
+                {/* <img src="./images/PoseFit (2).png" alt="logo" className="w-12 h-12" /> */}
+                <span className="text-[#f95501] font-bold text-2xl">PoseFit AI </span>
+              </Link>
+            </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
               <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 bg-white   md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
