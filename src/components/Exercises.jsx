@@ -24,7 +24,7 @@ export default function App() {
             <div className=" mb-40">
 
 
-                <div className="p-4   border-red-200">
+                <div className="p-4   ">
                     <div className="">
 
                         <h1 className="text-5xl font-semibold text-[#F95501]">Exercises</h1>
@@ -43,7 +43,7 @@ export default function App() {
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-                                    <button className="bg-[#F95501] btn w-40 h-14 rounded-lg" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501] btn w-40 h-14 hover:text-white  rounded-lg drop-shadow-xl" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
 
 
                                     </button>
@@ -78,7 +78,7 @@ export default function App() {
                                 <div>
 
 
-                                    <button className="bg-[#F95501] btn w-40 h-14 rounded-lg" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501]  hover:text-white btn w-40 h-14  rounded-lg drop-shadow-xl" onClick={() => document.getElementById('my_modal_5').showModal()}>open modal
 
 
                                     </button>

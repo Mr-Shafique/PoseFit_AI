@@ -1,28 +1,30 @@
 import React from 'react';
 import Feedback from './Feedback';
 import SessionHistoryTable from './SessionHistoryTable';
+import Nav from './Nav';
 
 export default function Profile() {
 
 
     return (
         <>
+        <Nav />
         <div className='flex justify-center m-0'>
 
             <div className='flex flex-col p-4 container '>
 
                 <div className='flex flex-col '>
 
-                    <div className='flex w-12/12  border-black border-2 mb-4'>
-                        <div className='w-4/12  flex justify-center'>
-                            <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className='w-3/4  ' />
+                    <div className='flex w-12/12   mb-4'>
+                        <div className='w-4/12  flex justify-center items-center'>
+                            <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className=' rounded-full  ' />
                         </div>
-                        <div className='w-full  border-black border-2 px-4 text-xl flex flex-col gap-2 font-inter font-bold'>
-                            <div className=' h-1/5'>username</div>
-                            <div className=' h-1/5'>email </div>
-                            <div className=' h-1/5'>age </div>
-                            <div className=' h-1/5'>height </div>
-                            <div className=' h-1/5'>weight </div>
+                        <div className='w-full   pl-4 text-xs sm:text-lg gap-1  flex flex-col '>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>USERNAME</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>EMAIL</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>AGE</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>HEIGHT</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>WEIGHT</div>
                         </div>
 
                         
@@ -33,7 +35,7 @@ export default function Profile() {
 
 
                     </div>
-                    <div className="collapse p-4 collapse-arrow bg-base-200">
+                    <div className="collapse p-4 collapse-arrow bg-base-200 mb-4" >
                        <div className='text-xl font-semibold p-4'>
                         Plank exercise
                        </div>
@@ -67,7 +69,7 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-                    <div className='w-full  h-svh flex flex-col gap-4  border-none rounded-lg overflow-scroll'>
+                    <div className='w-full flex flex-col gap-4  border-none rounded-lg overflow-scroll'>
                         <Feedback />
                         <Feedback />
                     </div>

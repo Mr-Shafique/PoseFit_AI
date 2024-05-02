@@ -16,11 +16,15 @@ export default function Main() {
         <Nav />
         <Hero />
         <Exercises />
-        <div className='bg-gradient-to-b from-slate-50 to-orange-500'>
-            
         <History />
         <About />
-        </div>
+        
+        
+        {/* <div className='bg-gradient-to-b from-slate-50 to-orange-500'>
+            
+        
+
+        </div> */}
             </div>
         </div>
         </>

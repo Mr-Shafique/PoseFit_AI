@@ -9,6 +9,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default function Login() {
 
     const [email, setEmail] = useState('')
@@ -82,10 +97,14 @@ export default function Login() {
 
 
 
-
-
-
     }
+
+
+
+
+
+
+
 
 
 
@@ -96,7 +115,6 @@ export default function Login() {
 
     const imageUrl = "./images/high-angle-woman-running.jpg";
     const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
-
     return (
         <>
             <ToastContainer limit={2} />

@@ -1,7 +1,7 @@
 // import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const list = ["Profile", "Exercises", "History", "About", "Contact us "];
+const list = ["Profile", "History", "About", "Contact us "];
 
 
 
@@ -21,16 +21,16 @@ export default function Nav() {
 
     <>
 
-      <div className=" z-20 sticky top-0">
+      <div className=" z-20 sticky top-0 flex justify-center ">
 
-        <div className=" max-w-screen-xl     md:px-8 ">
-          <div className="flex h-24 items-center  justify-between  ">
+        <div className=" max-w-screen-xl  container backdrop-blur-lg ">
+          <div className="flex h-20 items-center  justify-between ">
             <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
               <span>hello</span>
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
-              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0   md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
+              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 backdrop-blur-lg  md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
                 <ul id="hidden" className={`flex items-center gap-4 text-md  justify-end flex-col md:flex-row   `}>
                   {list.map((item, index) => {
                     return (
