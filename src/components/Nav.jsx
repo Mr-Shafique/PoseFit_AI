@@ -24,14 +24,14 @@ export default function Nav() {
       <div className=" z-20 sticky top-0">
 
         <div className=" max-w-screen-xl     md:px-8 ">
-          <div className="flex h-16 items-center  justify-between  ">
+          <div className="flex h-24 items-center  justify-between  ">
             <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
               <span>hello</span>
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
               <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0   md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
-                <ul id="hidden" className={`flex items-center gap-4 text-sm  justify-end flex-col md:flex-row   `}>
+                <ul id="hidden" className={`flex items-center gap-4 text-md  justify-end flex-col md:flex-row   `}>
                   {list.map((item, index) => {
                     return (
                       <li key={index} className="w-full md:w-auto py-2  px-4 md:px-0">

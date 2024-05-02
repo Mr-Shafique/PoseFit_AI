@@ -101,7 +101,7 @@ export default function Login() {
         <>
             <ToastContainer limit={2} />
             <div className="h-svh  flex md:justify-center justify-center  items-center  font-mono " style={{ backgroundImage: `url(${imagebg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
-                <div className="md:w-10/12 w-12/12 h-[100%] flex items-center justify-center container  flex-col md:flex-row md:py-6 " >
+                <div className="md:w-11/12 w-12/12 h-[100%] flex items-center justify-center container  flex-col md:flex-row md:py-6 " >
 
                     <div className="w-full md:w-5/12 h-[100%] " style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
 
