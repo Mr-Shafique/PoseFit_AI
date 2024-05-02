@@ -15,9 +15,9 @@ export default function Profile() {
 
                 <div className='flex flex-col '>
 
-                    <div className='flex w-12/12   mb-4'>
+                    <div className='flex w-12/12 h-1/6   mb-4'>
                         <div className='w-4/12  flex justify-center items-center'>
-                            <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className=' rounded-full  ' />
+                            <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className='  ' />
                         </div>
                         <div className='w-full   pl-4 text-xs sm:text-lg gap-1  flex flex-col '>
                             <div className=' bg-[#e5e7eb] rounded-lg flex items-center pl-4 h-1/5'>USERNAME</div>

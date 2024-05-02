@@ -4,12 +4,12 @@ const exercise = {
     PLANK: {
         title: "PLANK EXERCISE",
         image: "/images/plank.jpg",
-        description: "The plank is an isometric   core strength exercise that involves maintaining a position similar to a push-up for the maximum possible time The plank is an isometric   core strength exercise that involves maintaining a position similar to a push-up for the maximum possible time."
+        description: "The plank is an isometric core strength exercise."
     },
     squat: {
         title: "SQUAT  EXERCISE",
         image: "/images/squat.jpg",
-        description: "The sit-up is an abdominal endurance training exercise to strengthen, tighten and tone the abdominal muscles."
+        description: "The sit-up is an abdominal endurance training exercise."
     }
 }
 
@@ -32,12 +32,12 @@ export default function App() {
                     </div>
 
                     <div className=" flex  flex-col" >
-                        <div className="flex   rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+                        <div className="flex md:flex-row flex-col  rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
                             <div className="w-[80%] p-8 flex flex-col justify-between ">
                                 <div>
 
                                     <h2 className="text-2xl font-semibold text-[#F95501]">{exercise.PLANK.title}</h2>
-                                    <p className="text-black">{exercise.PLANK.description}</p>
+                                    <p className="text-black text-sm">{exercise.PLANK.description}</p>
                                 </div>
                                 <div>
 
@@ -68,12 +68,12 @@ export default function App() {
 
 
 
-                        <div className="flex  rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] ">
+                        <div className="flex md:flex-row flex-col rounded-xl my-4 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] ">
                             <div className="w-[80%] p-8 flex flex-col justify-between ">
                                 <div>
 
                                     <h2 className="text-2xl font-semibold text-[#F95501]">{exercise.squat.title}</h2>
-                                    <p className="text-black">{exercise.squat.description}</p>
+                                    <p className="text-black text-sm">{exercise.squat.description}</p>
                                 </div>
                                 <div>
 

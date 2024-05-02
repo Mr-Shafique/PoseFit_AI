@@ -23,15 +23,15 @@ export default function Nav() {
 
       <div className=" z-20 sticky top-0 flex justify-center ">
 
-        <div className=" max-w-screen-xl  container backdrop-blur-lg ">
+        <div className=" max-w-screen-xl  container bg-white ">
           <div className="flex h-20 items-center  justify-between ">
             <div className=" md:flex md:items-center  ml-4 absolute md:gap-12">
               <span>hello</span>
             </div>
 
             <div className="md:flex flex-1 justify-end  md:items-center relative md:gap-12">
-              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0  md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
-                <ul id="hidden" className={`flex items-center gap-4 text-md  justify-end flex-col md:flex-row backdrop-blur-lg md:backdrop-blur-none  `}>
+              <nav aria-label="Global" className={` md:static absolute w-full md:w-auto  mt-12 md:mt-0 bg-white   md:block ${isopen ? "block animate-slideDown" : "hidden animate-slideUp"}`}>
+                <ul id="hidden" className={`flex items-center gap-4 text-md  justify-end flex-col md:flex-row   `}>
                   {list.map((item, index) => {
                     return (
                       <li key={index} className="w-full md:w-auto py-2  px-4 md:px-0">
