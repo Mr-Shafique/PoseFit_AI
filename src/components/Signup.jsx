@@ -228,6 +228,7 @@ export default function Signup() {
                             <label htmlFor="gender" className="flex items-center bg-gray-200  border rounded-[14px]">
                                 <IoPeopleOutline className='text-black w-8  h-6 m-2' />
                                 <select name="gender" id="gender" onChange={handleGenderChange} className="rounded-xl bg-gray-200 h-8 text-black w-[100%] outline-none">
+                                   <option value="Gender" selected>Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -289,3 +290,6 @@ export default function Signup() {
         </>
     );
 }
+
+
+

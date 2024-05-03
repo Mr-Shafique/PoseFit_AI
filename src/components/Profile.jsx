@@ -30,11 +30,11 @@ export default function Profile() {
                             <img src="./images/Rectangle 5933.png" alt="./images/Rectangle 5933.png" className='  ' />
                         </div>
                         <div className='w-12/12  md:w-8/12 justify-center   text-xs sm:text-lg gap-4 md:pl-4  flex flex-col '>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >USERNAME : ${username}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >EMAIL :  ${email}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >AGE :  ${age}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >HEIGHT :  ${height}</div>
-                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >WEIGHT :  ${weight}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >USERNAME : {username}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >EMAIL :  {email}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >AGE :  {age}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >HEIGHT :  {height}</div>
+                            <div className=' bg-[#e5e7eb] rounded-lg flex items-center  h-16' >WEIGHT :  {weight}</div>
                         </div>
 
                         

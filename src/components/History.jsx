@@ -35,7 +35,7 @@ export default function History() {
                             </div>
                             <div className=" w-full  bg-[#f95501] h-10 rounded-lg flex justify-between p-2 px-4 text-white font-medium  sm:w-[30%]">
                                 <p>Wrong</p>
-                                <p>${wrong}</p>
+                                <p>{wrong}</p>
                             </div>
                         </div>
                     </div>
