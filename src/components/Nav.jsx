@@ -1,7 +1,7 @@
 // import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const list = ["Profile", "main", "Contact us "];
+const list = ["Profile", "main", "PlankExercise ","SquatExercise" ];
 
 
 

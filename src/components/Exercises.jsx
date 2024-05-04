@@ -18,9 +18,12 @@ export default function App() {
 
     const navigate = useNavigate();
 
-    const funchange = () => {
-      navigate('/camera');
+    const planchange = () => {
+      navigate('/PlankExercise');
     }
+    const squatchange = () => {
+        navigate('/SquatExercise');
+      }
 
     return (
         <>
@@ -46,7 +49,7 @@ export default function App() {
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-                                    <button className="bg-[#fb884e] hover:bg-[#F95501] btn w-40 h-14 hover:text-white  rounded-lg drop-shadow-xl"onClick={funchange} >Start Exercise
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501] btn w-40 h-14 hover:text-white  rounded-lg drop-shadow-xl"onClick={planchange} >Start Exercise
 
 
                                     </button>
@@ -70,7 +73,7 @@ export default function App() {
                                 <div>
 
 
-                                    <button className="bg-[#fb884e] hover:bg-[#F95501]  hover:text-white btn w-40 h-14  rounded-lg drop-shadow-xl" onClick={funchange} >Start Exercise
+                                    <button className="bg-[#fb884e] hover:bg-[#F95501]  hover:text-white btn w-40 h-14  rounded-lg drop-shadow-xl" onClick={squatchange} >Start Exercise
                                     </button>
                                   
                                 </div>

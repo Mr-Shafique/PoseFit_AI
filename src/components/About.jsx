@@ -15,8 +15,6 @@ export default function About() {
                        monitor improvements over time. With privacy as a priority, no data is stored 
                        or shared beyond real-time analysis. PostureCheckX is your virtual form coach,
                         fostering a safer and more effective fitness journey for users of all levels.
-
-
                 </p>
             </div>
         </>

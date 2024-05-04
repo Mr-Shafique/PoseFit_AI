@@ -3,7 +3,9 @@ import Signup from "./components/Signup";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from "./components/Main";
 import Profile from "./components/Profile";
-import Camera from "./components/Camera";
+import  SquatExercise from "./components/SquatExercise";
+import  PlankExercise from "./components/PlankExercise";
+
 
 
 export default function App() {
@@ -16,7 +18,8 @@ export default function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/main" element={<Main />} />
             <Route path= "/profile" element={<Profile />} />
-            <Route path="/camera" element={<Camera />} />
+            <Route path="/SquatExercise" element={<SquatExercise />} />
+            <Route path="/PlankExercise" element={<PlankExercise />} />
           </Routes>
 
       
