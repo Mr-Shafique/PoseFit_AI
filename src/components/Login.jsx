@@ -6,29 +6,20 @@ import { Link } from 'react-router-dom';
 // import Redalert from './Redalert';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const imageUrl = "./images/high-angle-woman-running.jpg";
+const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
 
 
 export default function Login() {
 
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('') // Step 1: Uncomment or add this line
-    // const [showAlert, setShowAlert] = useState(false);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const getemail = (e) => {
         setEmail(e.target.value)
@@ -38,83 +29,47 @@ export default function Login() {
         setPassword(e.target.value)
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        // Step 3: Implement validation
-        if (!email || !password) {
-            toast.error("Email and password are required", {
-                position: "top-center",
-                autoClose: 500,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Zoom,
-            });
-            return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (!email || !password) {
+                toast.error("Username and password are required", {
+                    position: "top-center",
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Zoom,
+                });
+                return;
+            }
+            // Add more specific validations as needed, e.g., regex for email format, password length, etc.
+            if (password.length < 8) {
+                toast.error("Password must be at least 8 characters long", {
+                    position: "top-center",
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Zoom,
+                });
+                return;
+            }
+            await login(email, password);
+            toast.success("Login successful", { theme: "colored" });
+            navigate('/main');  // Navigate to the Main page after login
+        } catch (error) {
+            toast.error("Failed to log in", { theme: "colored" });
         }
-        // Add more specific validations as needed, e.g., regex for email format, password length, etc.
-        if (!/\S+@\S+\.\S+/.test(email)) {
-
-            toast.error("Enter valid email", {
-                position: "top-center",
-                autoClose: 500,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                transition: Zoom,
-            });
-            return;
-        }
-        if (password.length < 8) {
-            toast.error("Password must be at least 8 characters long", {
-                position: "top-center",
-                autoClose: 500,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Zoom,
-            });
-            return;
-
-
-        }
-
-
-        // If all validations pass, proceed with form submission logic
         console.log("Form submitted with Email:", email, "Password:", password);
-        // Here, you would typically send the data to your server or perform other actions
+    };
 
-        // Clear the form fields after submission
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    const imageUrl = "./images/high-angle-woman-running.jpg";
-    const imagebg = "./images/flat-lay-orange-weights-with-water-bottle-copy-space.jpg"
     return (
         <>
             <ToastContainer limit={2} />
@@ -131,7 +86,7 @@ export default function Login() {
                                 <div className='flex items-center bg-gray-200  border rounded-[14px]'>
                                     <CiUser className='text-black w-6 h-6 m-2' />
 
-                                    <input type="text" name="username" id="username" placeholder="Enter Email" onChange={getemail} value={email} className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
+                                    <input type="text" name="username" id="username" placeholder="Enter Username" onChange={getemail} value={email} className="w-full h-11 rounded-xl bg-gray-200 text-black   outline-none text-sm" />
                                 </div>
                             </label>
                             <label htmlFor="password">
