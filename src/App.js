@@ -2,6 +2,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
+import { UserProvider } from "./UserContext";
 import Main from "./components/Main";
 import Profile from "./components/Profile";
 import SquatExercise from "./components/SquatExercise";
@@ -12,9 +13,9 @@ import PrivateRoute from "./PrivateRoute";
 
 export default function App() {
   return (
-    <>
+    <><BrowserRouter>
       <AuthProvider>
-        <BrowserRouter>
+        <UserProvider>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -23,8 +24,9 @@ export default function App() {
             <Route path="/SquatExercise" element={<PrivateRoute><SquatExercise /></PrivateRoute>} />
             <Route path="/PlankExercise" element={<PrivateRoute><PlankExercise /></PrivateRoute>} />
           </Routes>
-        </BrowserRouter>
+        </UserProvider>
       </AuthProvider>
+    </BrowserRouter>
     </>
   );
 }
