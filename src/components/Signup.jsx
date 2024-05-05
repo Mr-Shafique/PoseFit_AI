@@ -5,11 +5,10 @@ import { IoPeopleOutline } from "react-icons/io5";
 import { GoKey } from "react-icons/go";
 import { FiUser } from "react-icons/fi";
 import { MdHeight } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import { CiCalendarDate } from "react-icons/ci";
-
-
+import axios from 'axios';
 
 
 
@@ -22,6 +21,10 @@ export default function Signup() {
     const [height, setHeight] = useState('');
     const [username, setUsername] = useState('')
     const [age, setAge] = useState('')
+
+    const [isSigningUp, setIsSigningUp] = useState(false); // State to track signup process
+
+    const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -49,7 +52,7 @@ export default function Signup() {
         setAge(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Basic email validation
@@ -145,6 +148,36 @@ export default function Signup() {
             });
             return;
         }
+        
+        if (isSigningUp) {
+            return; // If signup process is already in progress, exit early to prevent multiple submits
+        }
+
+        try {
+            setIsSigningUp(true);  // Set the signing up state to true
+            const response = await axios.post('http://127.0.0.1:5000/auth/register', {
+                username,
+                email,
+                password,
+                gender,
+                age,
+                height,
+                weight
+            });
+
+            // Handle response from server
+            console.log('Response from server:', response.data);
+            toast.success("Signup successful", { theme: "colored" });
+
+            if (response.status === 200 || response.status === 201) {
+                navigate('/');  // Navigate to the Main page upon successful signup
+            }
+        } catch (error) {
+            console.error('Signup failed:', error.response ? error.response.data : error.message);
+            toast.error("Signup failed: " + (error.response ? error.response.data.message : "Unable to connect"), { theme: "colored" });
+        } finally {
+            setIsSigningUp(false);  // Reset the signing up state
+        }
 
 
 
@@ -157,31 +190,6 @@ export default function Signup() {
         console.log('Gender:', gender);
         console.log('Weight:', weight);
         console.log('Height:', height);
-
-        // Send data to server API
-        // fetch('', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         email,
-        //         password,
-        //         gender,
-        //         weight,
-        //         height,
-        //     }),
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // Handle response from server
-        //         console.log('Response from server:', data);
-        //         // TODO: Handle success or error response
-        //     })
-        //     .catch(error => {
-        //         // Handle error
-        //         console.error('Error:', error);
-        //     });
     };
 
 
@@ -228,7 +236,7 @@ export default function Signup() {
                             <label htmlFor="gender" className="flex items-center bg-gray-200  border rounded-[14px]">
                                 <IoPeopleOutline className='text-black w-8  h-6 m-2' />
                                 <select name="gender" id="gender" onChange={handleGenderChange} className="rounded-xl bg-gray-200 h-8 text-black w-[100%] outline-none">
-                                   <option value="Gender" selected>Gender</option>
+                                    <option value="">Select</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -270,13 +278,12 @@ export default function Signup() {
 
                             </div>
 
-
-
-
-
-                            <button className="md:shadow-2xl border-none btn rounded-xl bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 text-white"> Sign up
-                                {/* <div className="w-full h-8 text-white  bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 flex justify-center items-center  text-sm font-bold ">Sign up                      </div> */}
-
+                            <button
+                                className="md:shadow-2xl border-none btn rounded-xl bg-gradient-to-r from-slate-50 via-orange-400 to-orange-600 text-white"
+                                onClick={handleSubmit}
+                                disabled={isSigningUp} // Disable the button while signup process is ongoing
+                            >
+                                {isSigningUp ? 'Signing Up...' : 'Sign up'}
                             </button>
                             <Link to="/main" className="text-xs text-white md:text-gray-500">Already have Account <u>Signin</u></Link>
                             {/* <div className="flex flex-col justify-center text-[#7b6f72] items-center">
@@ -290,6 +297,3 @@ export default function Signup() {
         </>
     );
 }
-
-
-
