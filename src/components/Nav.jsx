@@ -1,6 +1,8 @@
 // import { HiOutlineMenu } from "react-icons/hi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 const list = ["Profile", "main", "PlankExercise ","SquatExercise" ];
 
 
@@ -8,6 +10,13 @@ const list = ["Profile", "main", "PlankExercise ","SquatExercise" ];
 export default function Nav() {
 
   const [isopen, setisopen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');  // Redirect to homepage or login page after logout
+  }
   const toggle = () => {
     setisopen(!isopen);
   }
@@ -53,12 +62,12 @@ export default function Nav() {
 
               <div className="flex items-center gap-4 justify-end">
                 <div className="sm:flex sm:gap-4">
-                  <a
+                <button
                     className="rounded-md bg-[#ff834d] px-5 py-2.5 text-sm font-medium text-white shadow"
-                    href="/"
+                    onClick={handleLogout}
                   >
                     Logout
-                  </a>
+                  </button>
                 </div>
 
                 <div className="block md:hidden">
