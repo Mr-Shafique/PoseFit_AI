@@ -10,6 +10,8 @@ function PlankExercise() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
 
+    const startTime = useRef(Date.now());
+
     // Mode: beginner or pro
     const [isBeginnerMode, setIsBeginnerMode] = useState(true); // Default to beginner mode
     const currentThresholds = thresholdsBeginner; // Set the current thresholds based on the mode
@@ -19,7 +21,6 @@ function PlankExercise() {
     // State tracker for the pose analysis
     const correctTime = useRef(0);
     const incorrectTime = useRef(0);
-    const exerciseDuration = useRef(0);
     const feedbackCounts = useRef([0, 0, 0, 0, 0, 0]); // Array for feedback counts
 
     const colors = {
@@ -122,6 +123,13 @@ function PlankExercise() {
 
         return Math.round(degree); // Return the angle rounded to the nearest integer for consistency with the Python version
     };
+
+    //utlitity function convert seconds to minutes
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60); // Get whole minutes
+        const remainingSeconds = Math.floor(seconds % 60); // Get remaining seconds rounded down
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`; // Format string with padded seconds
+    }    
 
     // Utility function to draw text on the canvas
     const drawText = (ctx, msg, x, y, options = {}) => {
@@ -248,6 +256,8 @@ function PlankExercise() {
         ctx.drawImage(webcamRef.current.video, 0, 0, canvas.width, canvas.height);
 
         if (results.poseLandmarks) {
+
+            const endTime = Date.now();
             // Calculate coordinates for each key landmark
             const noseCoord = getLandmarkFeatures(results.poseLandmarks, 'nose', frameWidth, frameHeight);
             const leftFeatures = getLandmarkFeatures(results.poseLandmarks, 'left', frameWidth, frameHeight);
@@ -262,12 +272,12 @@ function PlankExercise() {
                 drawCircle(ctx, leftFeatures.shoulder, 7, colors.yellow);
                 drawCircle(ctx, rightFeatures.shoulder, 7, colors.magenta);
 
-                drawText(ctx, `CORRECT : ${correctTime.current}`, frameWidth * 0.68, 30, {
+                drawText(ctx, `CORRECT : ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
                     textColor: 'rgb(255, 255, 230)',
                     backgroundColor: 'rgb(18, 185, 0)',
                     fontSize: '14px' // Adjusted for typical browser scaling; you may need to tweak this
                 });
-                drawText(ctx, `INCORRECT: ${incorrectTime.current}`, frameWidth * 0.68, 80, {
+                drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
                     textColor: 'rgb(255, 255, 230)',
                     backgroundColor: 'rgb(221, 0, 0)',
                     fontSize: '14px'
@@ -284,10 +294,12 @@ function PlankExercise() {
                     fontSize: '14px'
                 });
 
+                startTime.current = endTime;
+
             }// Camera is aligned properly
             else {
-                let startTime = Date.now();
-                let endTime = Date.now();
+
+                const duration = (endTime - startTime.current) / 1000;
 
                 // Calculate distances from shoulder to foot for both sides
                 const distLShHip = Math.abs(leftFeatures.foot.y - leftFeatures.shoulder.y);
@@ -349,56 +361,47 @@ function PlankExercise() {
 
                 // Check if the pose is aligned properly
                 if (isHeadAligned() && isBodyAligned() && isFootAligned() && isShoulderAligned()) {
-                    // Update correctTime based on the time spent in the correct pose
-                    endTime = Date.now();
-                    const duration = endTime - startTime;
-                    correctTime += duration;
-                    exerciseDuration.current += duration;
-                    startTime = Date.now();
+                    correctTime.current += duration;
                 } else {
-                    // Update incorrectTime based on the time spent in the incorrect pose
-                    endTime = Date.now();
-                    const duration = endTime - startTime;
-                    incorrectTime += duration;
-                    exerciseDuration.current += duration;
-                    startTime = Date.now();
+                    incorrectTime.current += duration;
                 }
+                startTime.current = endTime;
 
                 // Display feedback if the pose is not aligned properly
                 if (headAlignmentAngle < currentThresholds.HEAD_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.lowerHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 60, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.lowerHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[0] += 1;
                 }
                 if (headAlignmentAngle > currentThresholds.HEAD_ALIGNMENT.NORMAL[1]) {
-                    drawText(ctx, FEEDBACK.raiseHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 60, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.raiseHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[1] += 1;
                 }
                 if (bodyAlignmentAngle > currentThresholds.BODY_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.lowerHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 60, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.lowerHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[2] += 1;
                 }
                 if (bodyAlignmentAngle < currentThresholds.BODY_ALIGNMENT.NORMAL[1]) {
-                    drawText(ctx, FEEDBACK.raiseHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 60, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.raiseHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[3] += 1;
                 }
                 if (footAlignmentAngle > currentThresholds.FOOT_ALIGNMENT.NORMAL[1] || footAlignmentAngle < currentThresholds.FOOT_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.feetVertical, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 60, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.feetVertical, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 70, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[4] += 1;
                 }
                 if (shoulderAlignmentAngle > currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1] || shoulderAlignmentAngle < currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.shouldersVertical, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 40, { fontSize: '14px', textColor: 'red' });
+                    drawText(ctx, FEEDBACK.shouldersVertical, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'red' });
                     feedbackCounts.current[5] += 1;
                 }
 
                 // Displaying Correct Squats Count
-                drawText(ctx, `CORRECT: ${correctTime}`, frameWidth * 0.68, 30, {
+                drawText(ctx, `CORRECT: ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
                     textColor: 'rgb(255, 255, 230)',
                     backgroundColor: 'rgb(18, 185, 0)',
                     fontSize: '14px'
                 });
 
                 // Displaying Incorrect Squats Count
-                drawText(ctx, `INCORRECT: ${incorrectTime}`, frameWidth * 0.68, 80, {
+                drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
                     textColor: 'rgb(255, 255, 230)',
                     backgroundColor: 'rgb(221, 0, 0)',
                     fontSize: '14px'
