@@ -1,32 +1,51 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [authToken, setAuthToken] = useState(localStorage.getItem('token') || null);
-    const navigate = useNavigate(); // useNavigate hook for redirection
+    const navigate = useNavigate();
+
+    // Helper function to refresh the token
+    const refreshToken = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/auth/refresh', {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('refreshToken')}`
+                }
+            });
+            const { access } = response.data;
+            localStorage.setItem('token', access);
+            setAuthToken(access);
+            return access;
+        } catch (error) {
+            console.error('Refresh token failed:', error.response || error.message);
+            logout();
+            return null;
+        }
+    };
 
     useEffect(() => {
         const interceptor = axios.interceptors.response.use(
             response => response,
-            error => {
-                console.log("Interceptor caught an error", error.response);
-                if (error.response && error.response.status === 401) {
-                    console.log("Detected 401 error, logging out...");
-                    logout(); // Logs out if token cannot be refreshed or is invalid
+            async error => {
+                const originalRequest = error.config;
+                if (error.response && error.response.status === 401 && !originalRequest._retry) {
+                    originalRequest._retry = true;
+                    const newToken = await refreshToken();
+                    if (newToken) {
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+                        return axios(originalRequest);
+                    }
                 }
                 return Promise.reject(error);
             }
         );
-    
-        return () => {
-            axios.interceptors.response.eject(interceptor);
-            console.log("Interceptor removed");
-        };
-    }, []); // Ensures this setup runs only once
-    
+
+        return () => axios.interceptors.response.eject(interceptor);
+    }, []);
 
     const login = async (username, password) => {
         try {
@@ -36,6 +55,7 @@ export const AuthProvider = ({ children }) => {
             });
             const { access, refresh } = response.data.tokens;
             localStorage.setItem('token', access);
+            localStorage.setItem('refreshToken', refresh);
             setAuthToken(access);
             return true;
         } catch (error) {
@@ -45,12 +65,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        console.log("Executing logout...");
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         setAuthToken(null);
-        navigate('/'); // Make sure this path is correct and corresponds to your login route
+        navigate('/login'); // Redirect to login page
     };
-    
 
     return (
         <AuthContext.Provider value={{ authToken, login, logout }}>
