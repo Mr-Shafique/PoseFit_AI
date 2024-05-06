@@ -2,25 +2,10 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';  
 
-// Mock feedback ID map and frequency data
-const FEEDBACK_ID_MAP = {
-  0: { text: 'BEND BACKWARDS' },
-  1: { text: 'BEND FORWARD' },
-  2: { text: 'KNEE FALLING OVER TOE' },
-  3: { text: 'SQUAT TOO DEEP' },
-};
-
-const feedbackFrequency = {
-  0: 5,
-  1: 3,
-  2: 7,
-  3: 2,
-};
-
-const Feedback = () => {
-  // Prepare chart data
+const Feedback = ({ feedbackIdMap, feedbackFrequency, title }) => {
+  // Prepare chart data using props
   const data = {
-    labels: Object.keys(FEEDBACK_ID_MAP).map(key => FEEDBACK_ID_MAP[key].text),
+    labels: Object.keys(feedbackIdMap).map(key => feedbackIdMap[key].text),
     datasets: [
       {
         label: 'Frequency',
@@ -65,7 +50,7 @@ const Feedback = () => {
 
   return (
     <div className="bg-[#212529] p-4 rounded-lg">
-      <h2 className="text-white text-2xl mb-4">Squat Exercise Feedback</h2>
+      <h2 className="text-white text-2xl mb-4">{title}</h2>
       <div style={{ height: '400px' }}>
         <Bar data={data} options={options} />
       </div>
