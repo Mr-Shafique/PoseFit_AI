@@ -650,20 +650,25 @@ function SquatExercise() {
       }
       pose.close();
     };
-}, [onResults]); // Notice how we use the onResults function within the dependencies list.
+  }, [onResults]); // Notice how we use the onResults function within the dependencies list.
 
 
   return (
     <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative"> {/* Full screen, center content, and make position relative for floating elements */}
-      <button
-        onClick={() => handleNavigate()} // Navigate to /main when clicked
-        className="absolute top-0 left-0 m-4 bg-gray-200 p-2 rounded-md shadow hover:bg-gray-300 transition duration-300 ease-in-out flex items-center justify-center z-10" // High z-index to ensure it is on top
-        aria-label="Go back"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-6 w-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
+      <div className="absolute top-0 left-0 m-4 flex items-center"> {/* Flex container for back button and text */}
+        <button
+          onClick={handleNavigate}
+          className="bg-[#F95501] p-2 rounded-md shadow hover:bg-orange-600 transition duration-300 ease-in-out flex items-center justify-center z-10" // Theme color for button
+          aria-label="Go back"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-6 w-6 text-white">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div className="text-white bg-[#F95501] ml-4 py-2 px-4 rounded-md shadow"> {/* Box with theme color background and white text */}
+          Plank Exercise
+        </div>
+      </div>
       <div className="relative w-full max-w-screen-lg mx-auto"> {/* Max width for larger screens, centering */}
         {/* Webcam is hidden but can adjust if needed, maintaining aspect ratio */}
         <Webcam
