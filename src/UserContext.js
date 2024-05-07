@@ -1,6 +1,5 @@
-// src/contexts/UserContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from './axiosConfig';  
 import { useAuth } from './AuthContext';
 
 const UserContext = createContext(null);
@@ -19,30 +18,15 @@ export const UserProvider = ({ children }) => {
         if (!authToken) return; // If no token, do not proceed
 
         // Fetch user profile data
-        const userProfileResponse = await axios.get('http://127.0.0.1:5000/user/profile', {
-          headers: {
-            Authorization: `Bearer ${authToken}` // Add JWT token to the request headers
-          }
-        });
-
+        const userProfileResponse = await axiosInstance.get('/user/profile');
         setUser(userProfileResponse.data); // Set user data in the context
 
         // Fetch squat data
-        const squatResponse = await axios.get('http://127.0.0.1:5000/squat/get', {
-          headers: {
-            Authorization: `Bearer ${authToken}` // Add JWT token to the request headers
-          }
-        });
-
+        const squatResponse = await axiosInstance.get('/squat/get');
         setSquatData(squatResponse.data); // Set squat data in the context
 
         // Fetch plank data
-        const plankResponse = await axios.get('http://127.0.0.1:5000/plank/get', {
-          headers: {
-            Authorization: `Bearer ${authToken}` // Add JWT token to the request headers
-          }
-        });
-
+        const plankResponse = await axiosInstance.get('/plank/get');
         setPlankData(plankResponse.data); // Set plank data in the context
       } catch (error) {
         console.error('Error fetching user data:', error);

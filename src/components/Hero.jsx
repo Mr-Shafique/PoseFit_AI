@@ -14,7 +14,7 @@ export default function Hero() {
     return (
 
         <>
-        <div className="bg-[#f95501] flex justify-center">
+        <div style={{ backgroundColor: 'rgba(249, 85, 1, 0.8)' }} className="flex justify-center">
 
             {/* <div className="  " style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'auto', backgroundPosition : `center`, backgroundRepeat: `no-repeat`  }} > */}
                 
