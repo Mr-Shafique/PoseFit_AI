@@ -1,6 +1,5 @@
 import React from 'react';
 import Feedback from './Feedback';
-import SquatFeedback from './SquatFeedback';
 import SessionHistoryTable from './SessionHistoryTable';
 import { useState, useEffect } from 'react';
 import Nav from './Nav';

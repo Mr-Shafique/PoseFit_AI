@@ -1,14 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Webcam from "react-webcam";
 import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose';
 import * as cam from '@mediapipe/camera_utils';
 import { thresholdsBeginner, thresholdsPro } from './PlankThresholds';
+import { useNavigate } from 'react-router-dom';
 
 function PlankExercise() {
 
     //webcam and canvas references
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+    const navigate = useNavigate();
 
     const startTime = useRef(Date.now());
 
@@ -70,6 +72,7 @@ function PlankExercise() {
     */
 
     // Utility function to convert normalized landmark position to canvas coordinates
+
     const getLandmarkPosition = (landmark, frameWidth, frameHeight) => {
         return {
             x: landmark.x * frameWidth,
@@ -129,7 +132,7 @@ function PlankExercise() {
         const minutes = Math.floor(seconds / 60); // Get whole minutes
         const remainingSeconds = Math.floor(seconds % 60); // Get remaining seconds rounded down
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`; // Format string with padded seconds
-    }    
+    }
 
     // Utility function to draw text on the canvas
     const drawText = (ctx, msg, x, y, options = {}) => {
@@ -217,6 +220,185 @@ function PlankExercise() {
      */
 
     // UseEffect hook to run the pose detection and analysis
+    const handleNavigate = () => {
+        navigate('/main');
+    };
+
+    // Main function to process the pose results
+    const onResults = useCallback((results) => {
+        if (webcamRef.current && canvasRef.current) {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d");
+            canvas.width = webcamRef.current.video.videoWidth;
+            canvas.height = webcamRef.current.video.videoHeight;
+            const frameWidth = canvas.width;
+            const frameHeight = canvas.height;
+
+            ctx.drawImage(webcamRef.current.video, 0, 0, canvas.width, canvas.height);
+
+            if (results.poseLandmarks) {
+
+                const endTime = Date.now();
+                // Calculate coordinates for each key landmark
+                const noseCoord = getLandmarkFeatures(results.poseLandmarks, 'nose', frameWidth, frameHeight);
+                const leftFeatures = getLandmarkFeatures(results.poseLandmarks, 'left', frameWidth, frameHeight);
+                const rightFeatures = getLandmarkFeatures(results.poseLandmarks, 'right', frameWidth, frameHeight);
+
+                const offsetAngle = findAngle(leftFeatures.shoulder, rightFeatures.shoulder, noseCoord);
+
+                if (offsetAngle > currentThresholds.OFFSET_THRESH) {
+
+                    // Draw the circles for nose, left shoulder, and right shoulder
+                    drawCircle(ctx, noseCoord, 7, colors.white);
+                    drawCircle(ctx, leftFeatures.shoulder, 7, colors.yellow);
+                    drawCircle(ctx, rightFeatures.shoulder, 7, colors.magenta);
+
+                    drawText(ctx, `CORRECT : ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(18, 185, 0)',
+                        fontSize: '14px' // Adjusted for typical browser scaling; you may need to tweak this
+                    });
+                    drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(221, 0, 0)',
+                        fontSize: '14px'
+                    });
+
+                    drawText(ctx, 'CAMERA NOT ALIGNED PROPERLY!!!', 30, frameHeight - 60, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(255, 153, 0)',
+                        fontSize: '14px'
+                    });
+                    drawText(ctx, `OFFSET ANGLE: ${offsetAngle.toFixed(2)}`, 30, frameHeight - 30, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(255, 153, 0)',
+                        fontSize: '14px'
+                    });
+
+                    startTime.current = endTime;
+
+                }// Camera is aligned properly
+                else {
+
+                    const duration = (endTime - startTime.current) / 1000;
+
+                    // Calculate distances from shoulder to foot for both sides
+                    const distLShHip = Math.abs(leftFeatures.foot.y - leftFeatures.shoulder.y);
+                    const distRShHip = Math.abs(rightFeatures.foot.y - rightFeatures.shoulder.y);
+
+                    let selectedSideFeatures = null;
+
+                    if (distLShHip > distRShHip) {
+                        selectedSideFeatures = leftFeatures;
+                    } else {
+                        selectedSideFeatures = rightFeatures;
+                    }
+
+                    // draw the connections and points for the pose
+                    drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.elbow, 'green', 2);
+                    drawConnector(ctx, selectedSideFeatures.elbow, selectedSideFeatures.wrist, 'green', 2);
+                    drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.hip, 'red', 2);
+                    drawConnector(ctx, selectedSideFeatures.hip, selectedSideFeatures.knee, 'green', 2);
+                    drawConnector(ctx, selectedSideFeatures.knee, selectedSideFeatures.ankle, 'green', 2);
+                    drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.ear, 'purple', 2);
+                    drawConnector(ctx, selectedSideFeatures.ankle, selectedSideFeatures.foot, 'green', 2);
+
+                    // Calculate angles
+                    const headAlignmentAngle = findAngle(
+                        selectedSideFeatures.ear,
+                        { x: selectedSideFeatures.shoulder.x, y: 0 }, // Virtual point directly above the shoulder
+                        selectedSideFeatures.shoulder
+                    );
+                    const shoulderAlignmentAngle = findAngle(
+                        { x: 0, y: selectedSideFeatures.shoulder.y }, // Virtual point directly to the right of the shoulder
+                        selectedSideFeatures.elbow,
+                        selectedSideFeatures.shoulder
+                    );
+                    const bodyAlignmentAngle = findAngle(
+                        { x: selectedSideFeatures.hip.x, y: 0 }, // Virtual point directly below the hip
+                        selectedSideFeatures.shoulder, // Virtual point directly above the hip
+                        selectedSideFeatures.hip
+                    );
+                    const footAlignmentAngle = findAngle(
+                        selectedSideFeatures.foot,
+                        { x: 0, y: selectedSideFeatures.ankle.y }, // Virtual point directly above the hip
+                        selectedSideFeatures.ankle
+                    );
+
+                    Object.values(selectedSideFeatures).forEach((point) => {
+                        drawCircle(ctx, point, 5, 'blue'); // Drawing each landmark as a blue circle
+                    });
+
+                    // Display angles on the canvas
+                    drawText(ctx, `Head Alignment: ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 40, { fontSize: '14px', textColor: 'yellow' });
+                    drawText(ctx, `Shoulder Alignment: ${shoulderAlignmentAngle}°`, selectedSideFeatures.shoulder.x + 30, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'yellow' });
+                    drawText(ctx, `Body Alignment: ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x - 10, selectedSideFeatures.hip.y - 40, { fontSize: '14px', textColor: 'yellow' });
+                    drawText(ctx, `Foot Alignment: ${footAlignmentAngle}°`, selectedSideFeatures.ankle.x - 10, selectedSideFeatures.ankle.y - 40, { fontSize: '14px', textColor: 'yellow' });
+
+                    const isHeadAligned = () => headAlignmentAngle >= currentThresholds.HEAD_ALIGNMENT.NORMAL[0] && headAlignmentAngle <= currentThresholds.HEAD_ALIGNMENT.NORMAL[1];
+                    const isBodyAligned = () => bodyAlignmentAngle >= currentThresholds.BODY_ALIGNMENT.NORMAL[0] && bodyAlignmentAngle <= currentThresholds.BODY_ALIGNMENT.NORMAL[1];
+                    const isFootAligned = () => footAlignmentAngle >= currentThresholds.FOOT_ALIGNMENT.NORMAL[0] && footAlignmentAngle <= currentThresholds.FOOT_ALIGNMENT.NORMAL[1];
+                    const isShoulderAligned = () => shoulderAlignmentAngle >= currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0] && shoulderAlignmentAngle <= currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1];
+
+                    // Check if the pose is aligned properly
+                    if (isHeadAligned() && isBodyAligned() && isFootAligned() && isShoulderAligned()) {
+                        correctTime.current += duration;
+                    } else {
+                        incorrectTime.current += duration;
+                    }
+                    startTime.current = endTime;
+
+                    // Display feedback if the pose is not aligned properly
+                    if (headAlignmentAngle < currentThresholds.HEAD_ALIGNMENT.NORMAL[0]) {
+                        drawText(ctx, FEEDBACK.lowerHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[0] += 1;
+                    }
+                    if (headAlignmentAngle > currentThresholds.HEAD_ALIGNMENT.NORMAL[1]) {
+                        drawText(ctx, FEEDBACK.raiseHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[1] += 1;
+                    }
+                    if (bodyAlignmentAngle > currentThresholds.BODY_ALIGNMENT.NORMAL[0]) {
+                        drawText(ctx, FEEDBACK.lowerHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[2] += 1;
+                    }
+                    if (bodyAlignmentAngle < currentThresholds.BODY_ALIGNMENT.NORMAL[1]) {
+                        drawText(ctx, FEEDBACK.raiseHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[3] += 1;
+                    }
+                    if (footAlignmentAngle > currentThresholds.FOOT_ALIGNMENT.NORMAL[1] || footAlignmentAngle < currentThresholds.FOOT_ALIGNMENT.NORMAL[0]) {
+                        drawText(ctx, FEEDBACK.feetVertical, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 70, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[4] += 1;
+                    }
+                    if (shoulderAlignmentAngle > currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1] || shoulderAlignmentAngle < currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0]) {
+                        drawText(ctx, FEEDBACK.shouldersVertical, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'red' });
+                        feedbackCounts.current[5] += 1;
+                    }
+
+                    // Displaying Correct Squats Count
+                    drawText(ctx, `CORRECT: ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(18, 185, 0)',
+                        fontSize: '14px'
+                    });
+
+                    // Displaying Incorrect Squats Count
+                    drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
+                        textColor: 'rgb(255, 255, 230)',
+                        backgroundColor: 'rgb(221, 0, 0)',
+                        fontSize: '14px'
+                    });
+
+                }
+
+            }
+            else {
+
+                // Reset all other state variables
+            }
+        }
+    }, [webcamRef, canvasRef]);
+
+    // UseEffect hook to initialize the camera and pose detection
     useEffect(() => {
         const pose = new Pose({
             locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
@@ -231,193 +413,49 @@ function PlankExercise() {
             minTrackingConfidence: 0.5,
         });
 
-        pose.onResults(onResults);
-
-        if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null) {
-            const camera = new cam.Camera(webcamRef.current.video, {
-                onFrame: async () => {
-                    await pose.send({ image: webcamRef.current.video });
-                },
-                width: 640,
-                height: 480,
-            });
-            camera.start();
-        }
-    }, []);
-
-    const onResults = (results) => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        canvas.width = webcamRef.current.video.videoWidth;
-        canvas.height = webcamRef.current.video.videoHeight;
-        const frameWidth = canvas.width;
-        const frameHeight = canvas.height;
-
-        ctx.drawImage(webcamRef.current.video, 0, 0, canvas.width, canvas.height);
-
-        if (results.poseLandmarks) {
-
-            const endTime = Date.now();
-            // Calculate coordinates for each key landmark
-            const noseCoord = getLandmarkFeatures(results.poseLandmarks, 'nose', frameWidth, frameHeight);
-            const leftFeatures = getLandmarkFeatures(results.poseLandmarks, 'left', frameWidth, frameHeight);
-            const rightFeatures = getLandmarkFeatures(results.poseLandmarks, 'right', frameWidth, frameHeight);
-
-            const offsetAngle = findAngle(leftFeatures.shoulder, rightFeatures.shoulder, noseCoord);
-
-            if (offsetAngle > currentThresholds.OFFSET_THRESH) {
-
-                // Draw the circles for nose, left shoulder, and right shoulder
-                drawCircle(ctx, noseCoord, 7, colors.white);
-                drawCircle(ctx, leftFeatures.shoulder, 7, colors.yellow);
-                drawCircle(ctx, rightFeatures.shoulder, 7, colors.magenta);
-
-                drawText(ctx, `CORRECT : ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(18, 185, 0)',
-                    fontSize: '14px' // Adjusted for typical browser scaling; you may need to tweak this
+        let camera;
+        const startCamera = () => {
+            if (webcamRef.current && webcamRef.current.video) {
+                camera = new cam.Camera(webcamRef.current.video, {
+                    onFrame: async () => {
+                        if (webcamRef.current && webcamRef.current.video) { // Additional check to prevent accessing video of null
+                            await pose.send({ image: webcamRef.current.video });
+                        }
+                    },
+                    width: 640,
+                    height: 480,
                 });
-                drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(221, 0, 0)',
-                    fontSize: '14px'
-                });
-
-                drawText(ctx, 'CAMERA NOT ALIGNED PROPERLY!!!', 30, frameHeight - 60, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(255, 153, 0)',
-                    fontSize: '14px'
-                });
-                drawText(ctx, `OFFSET ANGLE: ${offsetAngle.toFixed(2)}`, 30, frameHeight - 30, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(255, 153, 0)',
-                    fontSize: '14px'
-                });
-
-                startTime.current = endTime;
-
-            }// Camera is aligned properly
-            else {
-
-                const duration = (endTime - startTime.current) / 1000;
-
-                // Calculate distances from shoulder to foot for both sides
-                const distLShHip = Math.abs(leftFeatures.foot.y - leftFeatures.shoulder.y);
-                const distRShHip = Math.abs(rightFeatures.foot.y - rightFeatures.shoulder.y);
-
-                let selectedSideFeatures = null;
-
-                if (distLShHip > distRShHip) {
-                    selectedSideFeatures = leftFeatures;
-                } else {
-                    selectedSideFeatures = rightFeatures;
-                }
-
-                // draw the connections and points for the pose
-                drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.elbow, 'green', 2);
-                drawConnector(ctx, selectedSideFeatures.elbow, selectedSideFeatures.wrist, 'green', 2);
-                drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.hip, 'red', 2);
-                drawConnector(ctx, selectedSideFeatures.hip, selectedSideFeatures.knee, 'green', 2);
-                drawConnector(ctx, selectedSideFeatures.knee, selectedSideFeatures.ankle, 'green', 2);
-                drawConnector(ctx, selectedSideFeatures.shoulder, selectedSideFeatures.ear, 'purple', 2);
-                drawConnector(ctx, selectedSideFeatures.ankle, selectedSideFeatures.foot, 'green', 2);
-
-                // Calculate angles
-                const headAlignmentAngle = findAngle(
-                    selectedSideFeatures.ear,
-                    { x: selectedSideFeatures.shoulder.x, y: 0 }, // Virtual point directly above the shoulder
-                    selectedSideFeatures.shoulder
-                );
-                const shoulderAlignmentAngle = findAngle(
-                    { x: 0, y: selectedSideFeatures.shoulder.y }, // Virtual point directly to the right of the shoulder
-                    selectedSideFeatures.elbow,
-                    selectedSideFeatures.shoulder
-                );
-                const bodyAlignmentAngle = findAngle(
-                    { x: selectedSideFeatures.hip.x, y: 0 }, // Virtual point directly below the hip
-                    selectedSideFeatures.shoulder, // Virtual point directly above the hip
-                    selectedSideFeatures.hip
-                );
-                const footAlignmentAngle = findAngle(
-                    selectedSideFeatures.foot,
-                    { x: 0, y: selectedSideFeatures.ankle.y }, // Virtual point directly above the hip
-                    selectedSideFeatures.ankle
-                );
-
-                Object.values(selectedSideFeatures).forEach((point) => {
-                    drawCircle(ctx, point, 5, 'blue'); // Drawing each landmark as a blue circle
-                });
-
-                // Display angles on the canvas
-                drawText(ctx, `Head Alignment: ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 40, { fontSize: '14px', textColor: 'yellow' });
-                drawText(ctx, `Shoulder Alignment: ${shoulderAlignmentAngle}°`, selectedSideFeatures.shoulder.x + 30, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'yellow' });
-                drawText(ctx, `Body Alignment: ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x - 10, selectedSideFeatures.hip.y - 40, { fontSize: '14px', textColor: 'yellow' });
-                drawText(ctx, `Foot Alignment: ${footAlignmentAngle}°`, selectedSideFeatures.ankle.x - 10, selectedSideFeatures.ankle.y - 40, { fontSize: '14px', textColor: 'yellow' });
-
-                const isHeadAligned = () => headAlignmentAngle >= currentThresholds.HEAD_ALIGNMENT.NORMAL[0] && headAlignmentAngle <= currentThresholds.HEAD_ALIGNMENT.NORMAL[1];
-                const isBodyAligned = () => bodyAlignmentAngle >= currentThresholds.BODY_ALIGNMENT.NORMAL[0] && bodyAlignmentAngle <= currentThresholds.BODY_ALIGNMENT.NORMAL[1];
-                const isFootAligned = () => footAlignmentAngle >= currentThresholds.FOOT_ALIGNMENT.NORMAL[0] && footAlignmentAngle <= currentThresholds.FOOT_ALIGNMENT.NORMAL[1];
-                const isShoulderAligned = () => shoulderAlignmentAngle >= currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0] && shoulderAlignmentAngle <= currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1];
-
-                // Check if the pose is aligned properly
-                if (isHeadAligned() && isBodyAligned() && isFootAligned() && isShoulderAligned()) {
-                    correctTime.current += duration;
-                } else {
-                    incorrectTime.current += duration;
-                }
-                startTime.current = endTime;
-
-                // Display feedback if the pose is not aligned properly
-                if (headAlignmentAngle < currentThresholds.HEAD_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.lowerHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[0] += 1;
-                }
-                if (headAlignmentAngle > currentThresholds.HEAD_ALIGNMENT.NORMAL[1]) {
-                    drawText(ctx, FEEDBACK.raiseHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[1] += 1;
-                }
-                if (bodyAlignmentAngle > currentThresholds.BODY_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.lowerHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[2] += 1;
-                }
-                if (bodyAlignmentAngle < currentThresholds.BODY_ALIGNMENT.NORMAL[1]) {
-                    drawText(ctx, FEEDBACK.raiseHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[3] += 1;
-                }
-                if (footAlignmentAngle > currentThresholds.FOOT_ALIGNMENT.NORMAL[1] || footAlignmentAngle < currentThresholds.FOOT_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.feetVertical, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 70, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[4] += 1;
-                }
-                if (shoulderAlignmentAngle > currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1] || shoulderAlignmentAngle < currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0]) {
-                    drawText(ctx, FEEDBACK.shouldersVertical, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'red' });
-                    feedbackCounts.current[5] += 1;
-                }
-
-                // Displaying Correct Squats Count
-                drawText(ctx, `CORRECT: ${formatTime(correctTime.current)}`, frameWidth * 0.68, 30, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(18, 185, 0)',
-                    fontSize: '14px'
-                });
-
-                // Displaying Incorrect Squats Count
-                drawText(ctx, `INCORRECT: ${formatTime(incorrectTime.current)}`, frameWidth * 0.68, 80, {
-                    textColor: 'rgb(255, 255, 230)',
-                    backgroundColor: 'rgb(221, 0, 0)',
-                    fontSize: '14px'
-                });
-
+                camera.start();
             }
+        };
 
-        }
-        else {
+        pose.onResults(onResults);
+        startCamera();
 
-            // Reset all other state variables
-        }
-    };
+        return () => {
+            if (camera) {
+                camera.stop();
+            }
+            if (webcamRef.current && webcamRef.current.video && webcamRef.current.video.srcObject) {
+                const tracks = webcamRef.current.video.srcObject.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            pose.close();
+        };
+    }, [onResults]); // Notice how we use the onResults function within the dependencies list.
+
 
     return (
         <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative"> {/* Full screen, center content, and make position relative for floating elements */}
+            <button
+                onClick={() => handleNavigate()} // Navigate to /main when clicked
+                className="absolute top-0 left-0 m-4 bg-gray-200 p-2 rounded-md shadow hover:bg-gray-300 transition duration-300 ease-in-out flex items-center justify-center z-10" // High z-index to ensure it is on top
+                aria-label="Go back"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-6 w-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
             <div className="relative w-full max-w-screen-lg mx-auto"> {/* Max width for larger screens, centering */}
                 {/* Webcam is hidden but can adjust if needed, maintaining aspect ratio */}
                 <Webcam
