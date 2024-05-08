@@ -4,6 +4,8 @@ import { Pose } from '@mediapipe/pose';
 import * as cam from '@mediapipe/camera_utils';
 import { thresholdsBeginner, thresholdsPro } from './SquatThresholds';
 import { useNavigate } from 'react-router-dom';
+import { startSession, updateSession, endSession } from '../api';
+import { debounce } from 'lodash';
 
 function SquatExercise() {
 
@@ -11,9 +13,12 @@ function SquatExercise() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [sessionEnded, setSessionEnded] = useState(false);
 
   // Mode: beginner or pro
   const [isBeginnerMode, setIsBeginnerMode] = useState(true); // Default to beginner mode
+  
 
   const flipFrameRef = useRef(false);
   const currentThresholds = isBeginnerMode ? thresholdsBeginner : thresholdsPro // Place to store your thresholds
@@ -606,8 +611,27 @@ function SquatExercise() {
     navigate('/main');
   };
 
+  useEffect(() => {
+    const initiateSession = debounce(async () => {
+      try {
+        const response = await startSession('squat');
+        console.log('Session started:', response);
+        setSessionStarted(true); // Set session started to true only if API call is successful
+      } catch (error) {
+        console.error('Error starting session:', error);
+      }
+    }, 1000); // debounce duration of 300ms
+  
+    initiateSession();
+  
+    return () => {
+      initiateSession.cancel(); // cancel any pending debounced calls on component unmount
+    };
+  }, []); // This useEffect runs only once on component mount
+  
   // UseEffect hook to run the pose detection and analysis
   useEffect(() => {
+
     const pose = new Pose({
       locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
     });
@@ -649,15 +673,67 @@ function SquatExercise() {
         tracks.forEach(track => track.stop());
       }
       pose.close();
+
+      // Call endSession when the component unmounts
+      endCurrentSession();
     };
   }, [onResults]); // Notice how we use the onResults function within the dependencies list.
 
+  // update session every 5 seconds
+  useEffect(() => {
+    if (!sessionStarted || sessionEnded) return;
+  
+    const intervalId = setInterval(async () => {
+      try {
+        const correct = stateTrackerRef.current.SQUAT_COUNT;
+        const incorrect = stateTrackerRef.current.IMPROPER_SQUAT;
+        const feedback = stateTrackerRef.current.COUNT_FRAMES.reduce((obj, count, index) => {
+          obj[index] = count;
+          return obj;
+        }, {});
+  
+        await updateSession({ correct, incorrect, feedback });
+        console.log('Session updated');
+      } catch (error) {
+        console.error('Error updating session:', error);
+      }
+    }, 5000); // Update every 5 seconds
+  
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, [sessionStarted, sessionEnded]); // This useEffect runs whenever `sessionStarted` or `sessionEnded` changes
+  
+
+  // useEffect for ending session
+  const endCurrentSession = async () => {
+    if (!sessionStarted || sessionEnded) return; // Prevent multiple calls and ensure session was started
+  
+    try {
+      const correct = stateTrackerRef.current.SQUAT_COUNT;
+      const incorrect = stateTrackerRef.current.IMPROPER_SQUAT;
+      const feedback = stateTrackerRef.current.COUNT_FRAMES.reduce((obj, count, index) => {
+        obj[index] = count;
+        return obj;
+      }, {});
+  
+      await endSession({ correct, incorrect, feedback });
+      console.log('Session ended');
+      setSessionEnded(true); // Set sessionEnded to true after successful endSession call
+    } catch (error) {
+      console.error('Error ending session:', error);
+    }
+  };
+  
+  const handleEndSessionAndNavigate = async () => {
+    await endCurrentSession();
+    handleNavigate();
+  };
+  
 
   return (
     <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative"> {/* Full screen, center content, and make position relative for floating elements */}
       <div className="absolute top-0 left-0 m-4 flex items-center"> {/* Flex container for back button and text */}
         <button
-          onClick={handleNavigate}
+          onClick={handleEndSessionAndNavigate}
           className="bg-[#F95501] p-2 rounded-md shadow hover:bg-orange-600 transition duration-300 ease-in-out flex items-center justify-center z-10" // Theme color for button
           aria-label="Go back"
         >
