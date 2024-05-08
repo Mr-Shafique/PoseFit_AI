@@ -53,8 +53,10 @@ export default function Profile() {
 
     const [squatCorrect, setSquatCorrect] = useState('0');
     const [squatIncorrect, setSquatIncorrect] = useState('0');
+    const [squatFeedback, setSquatFeedback] = useState([feedbackFrequencySquat]);
     const [plankCorrect, setPlankCorrect] = useState('0');
     const [plankIncorrect, setPlankIncorrect] = useState('0');
+    const [plankFeedback, setPlankFeedback] = useState([feedbackFrequencyPlank]);
 
     useEffect(() => {
         if (user) {
@@ -67,10 +69,16 @@ export default function Profile() {
         if(squatData) {
             setSquatCorrect(squatData.correct || '0');
             setSquatIncorrect(squatData.incorrect || '0');
+            if(squatData.feedback) {
+                setSquatFeedback(squatData.feedback);
+            }
         }
         if(plankData) {
             setPlankCorrect(plankData.correct || '0');
             setPlankIncorrect(plankData.incorrect || '0');
+            if(plankData.feedback) {
+                setPlankFeedback(plankData.feedback);
+            }
         }
       }, [user, squatData, plankData]);
 
@@ -111,8 +119,6 @@ export default function Profile() {
                        <div className='text-xl font-semibold p-4'>
                         Squat exercise
                        </div>
-                       
-                     
                         <div className=" flex flex-col   justify-between  sm:flex-row  gap-2 ">
                             <div className=" flex justify-between p-2 px-4 w-full bg-green-400 h-10 rounded-lg text-white font-medium  sm:w-[30%]">
                                 <p>Correct</p>
@@ -128,8 +134,6 @@ export default function Profile() {
                        <div className='text-xl font-semibold p-4'>
                         Plank exercise
                        </div>
-                       
-                    
                         <div className=" flex flex-col   justify-between  sm:flex-row  gap-2 ">
                             <div className=" flex justify-between p-2 px-4 w-full bg-green-400 h-10 rounded-lg text-white font-medium  sm:w-[30%]">
                                 <p>Correct</p>
@@ -142,8 +146,8 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className='w-full flex flex-col gap-4  border-none rounded-lg overflow-scroll'>
-                    <Feedback feedbackIdMap={FEEDBACK_ID_MAP_SQUAT} feedbackFrequency={feedbackFrequencySquat} title={"Squat Exercise Feedback"} />
-                    <Feedback feedbackIdMap={FEEDBACK_ID_MAP_PLANK} feedbackFrequency={feedbackFrequencyPlank} title={"Plank Exercise Feedback"} />
+                    <Feedback feedbackIdMap={FEEDBACK_ID_MAP_SQUAT} feedbackFrequency={squatFeedback} title={"Squat Exercise Feedback"} />
+                    <Feedback feedbackIdMap={FEEDBACK_ID_MAP_PLANK} feedbackFrequency={plankFeedback} title={"Plank Exercise Feedback"} />
                     </div>
                 </div>
                 <SessionHistoryTable />
