@@ -21,7 +21,7 @@ function SquatExercise() {
   
 
   const flipFrameRef = useRef(false);
-  const currentThresholds = isBeginnerMode ? thresholdsBeginner : thresholdsPro // Place to store your thresholds
+  const [currentThresholds, setCurrentThresholds] = useState(thresholdsBeginner);
 
   // State tracker for the pose analysis
   const stateTrackerRef = useRef({
@@ -601,7 +601,7 @@ function SquatExercise() {
         stateTrackerRef.current.INACTIVE_TIME_FRONT = 0;
         stateTrackerRef.current.INCORRECT_POSTURE = false;
         stateTrackerRef.current.DISPLAY_TEXT = Array(5).fill(false);
-        stateTrackerRef.current.COUNT_FRAMES = Array(5).fill(0);
+        // stateTrackerRef.current.COUNT_FRAMES = Array(5).fill(0);
         stateTrackerRef.current.start_inactive_time_front = Date.now();
       }
     }
@@ -691,7 +691,7 @@ function SquatExercise() {
           obj[index] = count;
           return obj;
         }, {});
-  
+        console.log('Updating session...', { correct, incorrect, feedback });
         await updateSession({ correct, incorrect, feedback });
         console.log('Session updated');
       } catch (error) {
@@ -723,41 +723,58 @@ function SquatExercise() {
     }
   };
   
+  // Function to handle ending the current session and navigating back to the main page
   const handleEndSessionAndNavigate = async () => {
     await endCurrentSession();
     handleNavigate();
   };
   
+  // Function to handle mode change
+  const handleModeChange = (event) => {
+    const isBeginner = event.target.value === 'beginner';
+    setIsBeginnerMode(isBeginner);
+    const newThresholds = isBeginner ? thresholdsBeginner : thresholdsPro;
+    setCurrentThresholds(newThresholds);
+    console.log('Current Thresholds:', newThresholds);
+  };
 
   return (
-    <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative"> {/* Full screen, center content, and make position relative for floating elements */}
-      <div className="absolute top-0 left-0 m-4 flex items-center"> {/* Flex container for back button and text */}
+    <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative">
+      <div className="absolute top-0 left-0 m-4 flex items-center">
         <button
           onClick={handleEndSessionAndNavigate}
-          className="bg-[#F95501] p-2 rounded-md shadow hover:bg-orange-600 transition duration-300 ease-in-out flex items-center justify-center z-10" // Theme color for button
+          className="bg-[#F95501] p-2 rounded-md shadow hover:bg-orange-600 transition duration-300 ease-in-out flex items-center justify-center z-10"
           aria-label="Go back"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-6 w-6 text-white">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div className="text-white bg-[#F95501] ml-4 py-2 px-4 rounded-md shadow"> {/* Box with theme color background and white text */}
-          Plank Exercise
+        <div className="text-white bg-[#F95501] ml-4 py-2 px-4 rounded-md shadow">
+          Squat Exercise
         </div>
       </div>
-      <div className="relative w-full max-w-screen-lg mx-auto"> {/* Max width for larger screens, centering */}
-        {/* Webcam is hidden but can adjust if needed, maintaining aspect ratio */}
+      <div className="absolute top-0 right-0 m-4">
+        <select
+          onChange={handleModeChange}
+          className="text-white bg-[#F95501] p-2 rounded-md shadow"
+          value={isBeginnerMode ? 'beginner' : 'pro'}
+        >
+          <option value="beginner">Beginner Mode</option>
+          <option value="pro">Pro Mode</option>
+        </select>
+      </div>
+      <div className="relative w-full max-w-screen-lg mx-auto">
         <Webcam
           ref={webcamRef}
           style={{ display: 'none' }}
         />
-        {/* Canvas fills parent, maintains aspect ratio */}
         <canvas
           ref={canvasRef}
           className="h-full w-full object-contain"
           style={{
-            maxWidth: '100vw', /* Maximum width */
-            maxHeight: '100vh', /* Maximum height */
+            maxWidth: '100vw',
+            maxHeight: '100vh',
             position: 'relative',
             left: 0,
             top: 0
@@ -766,7 +783,6 @@ function SquatExercise() {
       </div>
     </div>
   );
-
 }
 
 export default SquatExercise;
