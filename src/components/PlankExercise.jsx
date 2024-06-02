@@ -16,7 +16,7 @@ function PlankExercise() {
 
     // Mode: beginner or pro
     const [isBeginnerMode, setIsBeginnerMode] = useState(true); // Default to beginner mode
-    const currentThresholds = thresholdsBeginner; // Set the current thresholds based on the mode
+    const [currentThresholds, setCurrentThresholds] = useState(thresholdsBeginner);
 
     const flipFrameRef = useRef(false);
 
@@ -56,7 +56,6 @@ function PlankExercise() {
         },
         nose: 0,
     };
-
 
     const FEEDBACK = {
         lowerHead: "Lower Your Head",
@@ -330,10 +329,10 @@ function PlankExercise() {
                     });
 
                     // Display angles on the canvas
-                    drawText(ctx, `Head Alignment: ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 40, { fontSize: '14px', textColor: 'yellow' });
-                    drawText(ctx, `Shoulder Alignment: ${shoulderAlignmentAngle}°`, selectedSideFeatures.shoulder.x + 30, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'yellow' });
-                    drawText(ctx, `Body Alignment: ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x - 10, selectedSideFeatures.hip.y - 40, { fontSize: '14px', textColor: 'yellow' });
-                    drawText(ctx, `Foot Alignment: ${footAlignmentAngle}°`, selectedSideFeatures.ankle.x - 10, selectedSideFeatures.ankle.y - 40, { fontSize: '14px', textColor: 'yellow' });
+                    // drawText(ctx, `Head Alignment: ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 40, { fontSize: '14px', textColor: 'yellow' });
+                    // drawText(ctx, `Shoulder Alignment: ${shoulderAlignmentAngle}°`, selectedSideFeatures.shoulder.x + 30, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'yellow' });
+                    // drawText(ctx, `Body Alignment: ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x - 10, selectedSideFeatures.hip.y - 40, { fontSize: '14px', textColor: 'yellow' });
+                    // drawText(ctx, `Foot Alignment: ${footAlignmentAngle}°`, selectedSideFeatures.ankle.x - 10, selectedSideFeatures.ankle.y - 40, { fontSize: '14px', textColor: 'yellow' });
 
                     const isHeadAligned = () => headAlignmentAngle >= currentThresholds.HEAD_ALIGNMENT.NORMAL[0] && headAlignmentAngle <= currentThresholds.HEAD_ALIGNMENT.NORMAL[1];
                     const isBodyAligned = () => bodyAlignmentAngle >= currentThresholds.BODY_ALIGNMENT.NORMAL[0] && bodyAlignmentAngle <= currentThresholds.BODY_ALIGNMENT.NORMAL[1];
@@ -350,27 +349,27 @@ function PlankExercise() {
 
                     // Display feedback if the pose is not aligned properly
                     if (headAlignmentAngle < currentThresholds.HEAD_ALIGNMENT.NORMAL[0]) {
-                        drawText(ctx, FEEDBACK.lowerHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
+                        drawText(ctx, ` ${FEEDBACK.lowerHead} : ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[0] += 1;
                     }
                     if (headAlignmentAngle > currentThresholds.HEAD_ALIGNMENT.NORMAL[1]) {
-                        drawText(ctx, FEEDBACK.raiseHead, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
+                        drawText(ctx, ` ${FEEDBACK.raiseHead} : ${headAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y - 70, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[1] += 1;
                     }
-                    if (bodyAlignmentAngle > currentThresholds.BODY_ALIGNMENT.NORMAL[0]) {
-                        drawText(ctx, FEEDBACK.lowerHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
+                    if (bodyAlignmentAngle < currentThresholds.BODY_ALIGNMENT.NORMAL[0]) {
+                        drawText(ctx, ` ${FEEDBACK.raiseHips} : ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[2] += 1;
                     }
-                    if (bodyAlignmentAngle < currentThresholds.BODY_ALIGNMENT.NORMAL[1]) {
-                        drawText(ctx, FEEDBACK.raiseHips, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
+                    if (bodyAlignmentAngle > currentThresholds.BODY_ALIGNMENT.NORMAL[1]) {
+                        drawText(ctx, ` ${FEEDBACK.lowerHips} : ${bodyAlignmentAngle}°`, selectedSideFeatures.hip.x, selectedSideFeatures.hip.y - 70, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[3] += 1;
                     }
                     if (footAlignmentAngle > currentThresholds.FOOT_ALIGNMENT.NORMAL[1] || footAlignmentAngle < currentThresholds.FOOT_ALIGNMENT.NORMAL[0]) {
-                        drawText(ctx, FEEDBACK.feetVertical, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 70, { fontSize: '14px', textColor: 'red' });
+                        drawText(ctx, ` ${FEEDBACK.feetVertical} : ${footAlignmentAngle}°`, selectedSideFeatures.ankle.x, selectedSideFeatures.ankle.y - 70, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[4] += 1;
                     }
                     if (shoulderAlignmentAngle > currentThresholds.SHOULDER_ALIGNMENT.NORMAL[1] || shoulderAlignmentAngle < currentThresholds.SHOULDER_ALIGNMENT.NORMAL[0]) {
-                        drawText(ctx, FEEDBACK.shouldersVertical, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'red' });
+                        drawText(ctx, ` ${FEEDBACK.shouldersVertical} : ${shoulderAlignmentAngle}°`, selectedSideFeatures.shoulder.x, selectedSideFeatures.shoulder.y + 20, { fontSize: '14px', textColor: 'red' });
                         feedbackCounts.current[5] += 1;
                     }
 
@@ -444,6 +443,15 @@ function PlankExercise() {
         };
     }, [onResults]); // Notice how we use the onResults function within the dependencies list.
 
+    // Function to handle mode change
+    const handleModeChange = (event) => {
+        const isBeginner = event.target.value === 'beginner';
+        setIsBeginnerMode(isBeginner);
+        const newThresholds = isBeginner ? thresholdsBeginner : thresholdsPro;
+        setCurrentThresholds(newThresholds);
+        console.log('Current Thresholds:', newThresholds);
+    };
+
 
     return (
         <div className="bg-gray-100 w-full h-screen flex justify-center items-center overflow-hidden relative"> {/* Full screen, center content, and make position relative for floating elements */}
@@ -460,6 +468,16 @@ function PlankExercise() {
                 <div className="text-white bg-[#F95501] ml-4 py-2 px-4 rounded-md shadow"> {/* Box with theme color background and white text */}
                     Plank Exercise
                 </div>
+            </div>
+            <div className="absolute top-0 right-0 m-4">
+                <select
+                    onChange={handleModeChange}
+                    className="text-white bg-[#F95501] p-2 rounded-md shadow"
+                    value={isBeginnerMode ? 'beginner' : 'pro'}
+                >
+                    <option value="beginner">Beginner Mode</option>
+                    <option value="pro">Pro Mode</option>
+                </select>
             </div>
             <div className="relative w-full max-w-screen-lg mx-auto"> {/* Max width for larger screens, centering */}
                 {/* Webcam is hidden but can adjust if needed, maintaining aspect ratio */}
