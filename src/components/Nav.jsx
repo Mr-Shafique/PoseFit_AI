@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-const list = ["Profile", "main", "PlankExercise ","SquatExercise" ];
 
-
+const list = ["Profile", "Main", "PlankExercise ","SquatExercise" ];
 
 export default function Nav() {
 
@@ -24,9 +23,6 @@ export default function Nav() {
   // const img = "./images/PoseFit (2).png";
 
   return (
-
-
-
 
     <>
 
