@@ -27,7 +27,7 @@ const SessionHistoryTable = () => {
             incorrect = `${session.incorrect ?? 0} seconds`;
           }
 
-          const duration = session.duration !== null ? `${session.duration} minutes` : 'N/A';
+          const duration = session.duration !== null ? `${(session.duration / 60).toFixed(2)} minutes` : 'N/A';
 
           return {
             exercise: session.exercise_name ?? 'N/A',
