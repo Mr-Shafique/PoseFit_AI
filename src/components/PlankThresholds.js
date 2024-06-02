@@ -1,16 +1,16 @@
 // Thresholds for plank exercise analysis in beginner mode
 export const thresholdsBeginner = {
     HEAD_ALIGNMENT: {
-        NORMAL: [65, 75], // Ideal head alignment range
+        NORMAL: [65, 100], // Ideal head alignment range
     },
     BODY_ALIGNMENT: {
-        NORMAL: [80, 90], // Ideal body alignment range
+        NORMAL: [60, 100], // Ideal body alignment range
     },
     SHOULDER_ALIGNMENT: {
-        NORMAL: [80, 95], // Ideal shoulder alignment range
+        NORMAL: [70, 105], // Ideal shoulder alignment range
     },
     FOOT_ALIGNMENT: {
-        NORMAL: [80, 95], // Ideal foot alignment range
+        NORMAL: [70, 110], // Ideal foot alignment range
     },
     OFFSET_THRESH: 35.0, // Threshold for determining side view alignment
     INACTIVE_THRESH: 15.0, // Seconds of inactivity to trigger feedback
